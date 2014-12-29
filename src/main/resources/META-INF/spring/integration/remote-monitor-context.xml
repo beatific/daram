@@ -4,18 +4,20 @@
 	xmlns:int="http://www.springframework.org/schema/integration"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:task="http://www.springframework.org/schema/task"
 	xmlns:int-groovy="http://www.springframework.org/schema/integration/groovy"
 	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
 	    http://www.springframework.org/schema/integration/groovy http://www.springframework.org/schema/integration/groovy/spring-integration-groovy.xsd
 		http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.0.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 		<bean id="clientConnector"
 		class="org.springframework.jmx.support.MBeanServerConnectionFactoryBean">
 		<property name="serviceUrl"
-			value="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi" />
+			value="service:jmx:rmi://localhost/jndi/rmi://192.168.1.139:9840/jmxrmi" />
 		<!-- <property name="environment"> <map> <entry key="jmx.remote.credentials" 
 			value="#{new String[] {'admin', 'cbycfvjkjjudosrxchsgijfnbsrpnqctnujeirubbacljkhh'}}" 
 			/> </map> </property> -->
@@ -38,24 +40,28 @@
 	<int:channel id="logChannel"/>
 	
 	<int:logging-channel-adapter id="logAdapter" channel="logChannel"
-		level="DEBUG"
-		expression="'init:' + payload.getInit()/(1024.f)  + '; max:' + payload.getMax()/(1024.f) +  '; used: ' + payload.getUsed()/(1024.f) + '; committed: ' + payload.getCommitted()/(1024.f)"
-		lo ext " />
+		level="INFO"
+		expression="'init:' + payload.get('init')/(1024.f)  + '; max:' + payload.get('max')/(1024.f) +  '; used: ' + payload.get('used')/(1024.f) + '; committed: ' + payload.get('committed')/(1024.f)" />
 
-	<int:logging-channel-adapter channel="publishInChannel" level="DEBUG" log-full-message="true" />
+	<!-- <int:logging-channel-adapter channel="publishInChannel" level="INFO" log-full-message="true" /> -->
 
 	<int:payload-type-router input-channel="publishInChannel">
-		<int:mapping type="java.lang.management.MemoryUsage" channel="memoryChannel" />
+		<int:mapping type="javax.management.openmbean.CompositeDataSupport" channel="memoryChannel" />
 	</int:payload-type-router>
+	
+	<int:logging-channel-adapter channel="memoryChannel" level="INFO" log-full-message="true" />
 
 	<int-jmx:attribute-polling-channel-adapter
 		channel="publishInChannel" server="clientConnector" attribute-name="HeapMemoryUsage"
 		object-name="java.lang:type=Memory">
-		<int:poller fixed-delay="1000" />
+		<int:poller fixed-delay="5000" />
 	</int-jmx:attribute-polling-channel-adapter>
+	
+	<int:service-activator input-channel="memoryChannel" ref="myService">
+</int:service-activator>
 
-	<bean id="twitterService"
-		class="org.springintegration.service.impl.DefaultTwitterService" />
+<bean id ="myService" class="org.springframework.integration.service.MyService"/>
+
 
 	<!-- <int:gateway service-interface="org.springintegration.NotificationListener$Gateway" 
 		default-request-channel="commandRouter"/> <int:channel id="commandRouter"/> 

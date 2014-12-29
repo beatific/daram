@@ -12,24 +12,24 @@
 
 	<!-- Loggers -->
 	<logger name="org.springframework">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.springframework.integration">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.springframework.integration.mvc.controller">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<logger name="org.springframework.integration.samples">
-		<level value="DEBUG" />
+		<level value="INFO" />
 	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="DEBUG" />
+		<priority value="INFO" />
 		<appender-ref ref="console" />
 	</root>
 

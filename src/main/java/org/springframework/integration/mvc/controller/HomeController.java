@@ -19,7 +19,6 @@ import java.util.Collection;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.integration.samples.storedprocedure.model.TwitterMessage;
 import org.springframework.integration.service.TwitterService;
@@ -38,7 +37,7 @@ public class HomeController {
 
 	@Autowired
 	private TwitterService twitterService;
-
+	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
