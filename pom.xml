@@ -137,6 +137,12 @@
 			<artifactId>jolokia-core</artifactId>
 			<version>1.2.3</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>adahas</groupId>
+			<artifactId>jmxeval</artifactId>
+			<version>1.2.6</version>
+		</dependency>
 
 	</dependencies>
 </project>
