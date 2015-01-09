@@ -1,4 +1,4 @@
-package org.beatific.daram.process;
+package org.beatific.daram.reader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 public class JmxReader {
 
-	private String configFile = "C:/Users/08151/git/daram/src/main/resources/jmxeval-threadcount.xml";
-	private String validate = "false";
-	private String schema = "1.2";
+	private String configFile;
 
 	public void setConfigFile(String configFile) {
 		this.configFile = configFile;
@@ -32,6 +30,8 @@ public class JmxReader {
 			final Daram daram = (Daram) elementBuilder.build(context);
 
 			daram.process(context);
+			
+			System.out.println(context.getResult());
 
 		} catch (Exception e) {
 

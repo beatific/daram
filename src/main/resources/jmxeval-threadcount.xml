@@ -18,20 +18,20 @@
 			<attribute var="cpu" name="SystemCpuLoad"/>
 		</mbean>
 	</connection>
-<!-- 	<design name="Memory">
+	<design name="Memory">
 		<caption format="init : ${memory.get('init')}, max : ${memory.get('max')}, used : ${memory.get('used')}, committed : ${memory.get('committed')}" />
-		<graph value="${memory.get('used')}" detail="used" />
+		<graph x-value="$[date]" y-value="${memory.get('used')}" name="used" />
 	</design>
 	<design name="Threads">
 		<caption format="Live : ${threadCount} Peak : ${peakCount} Total : ${totalCount}" />
-		<graph value="${threadCount}" detail="live" />
+		<graph x-value="$[date]" y-value="${threadCount}" name="live" />
 	</design>
 	<design name="Class">
 		<caption format="classCount : ${classCount}" />
-		<graph value="${classCount}" detail="class" />
+		<graph x-value="$[date]" y-value="${classCount}" name="class" />
 	</design>
 	<design name="CPU">
 		<caption format="use rate : ${cpu}%" />
-		<graph value="cpu" detail="class" />
-	</design> -->
+		<graph x-value="$[date]" y-value="${cpu}" name="cpu" />
+	</design>
 </daram:daram>

@@ -36,11 +36,25 @@ public class Element {
 	protected void addChildElement(final Element childElement) {
 		this.childElements.add(childElement);
 	}
-
-    protected String getValues(final Context context, final String source) {
+	
+	protected String processReservedWord(String word) {
+		if("date".equals(word.toLowerCase())) {
+			long time = System.currentTimeMillis();
+			return String.valueOf(time);
+		}
 		
-		final Matcher matcher = REMatchers.innerBracesMatcher(source);
+		return null;
+	}
+
+    protected String getValue(final Context context, final String source) {
+		
+		final Matcher matcher = REMatchers.curlyBracketMatcher(source);
+		final Matcher systemMatcher = REMatchers.squareBracketMatcher(source);
 		final StringBuffer buffer = new StringBuffer();
+		
+		if(systemMatcher.find()) {
+			return processReservedWord(systemMatcher.group(1));
+		}
 		
 	    while (matcher.find()) {
 	      String attribute = matcher.group(1);
@@ -120,7 +134,7 @@ public class Element {
 	}
 
 	protected String replaceWithVars(final String source) {
-		final Matcher matcher = REMatchers.innerBracesMatcher(source);
+		final Matcher matcher = REMatchers.curlyBracketMatcher(source);
 
 		final StringBuffer buffer = new StringBuffer();
 		while (matcher.find()) {

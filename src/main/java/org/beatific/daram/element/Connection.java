@@ -33,14 +33,14 @@ public class Connection extends Element {
 	public void process(final Context context) {
 		JMXConnector jmxConnector = null;
 		try {
-			final JMXServiceURL jmxServiceURL = new JMXServiceURL(getValues(context, url));
+			final JMXServiceURL jmxServiceURL = new JMXServiceURL(getValue(context, url));
 			final Map<String, Object> jmxEnv = new HashMap<String, Object>();
 
 			if (username != null && password != null) {
-				jmxEnv.put(JMXConnector.CREDENTIALS, new String[] { getValues(context, username), getValues(context, password) });
+				jmxEnv.put(JMXConnector.CREDENTIALS, new String[] { getValue(context, username), getValue(context, password) });
 			}
 
-			if (Boolean.parseBoolean(getValues(context, ssl))) {
+			if (Boolean.parseBoolean(getValue(context, ssl))) {
 				SslRMIClientSocketFactory csf = new SslRMIClientSocketFactory();
 				jmxEnv.put("com.sun.jndi.rmi.factory.socket", csf);
 			}
