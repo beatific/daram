@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<jmxeval:jmxeval xmlns:jmxeval="http://www.adahas.com/schema/jmxeval-1.2"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">  
+	<connection url="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi">           
+		<eval name="Threads">
+			<query var="threadCount,peakCount,totalCount" objectName="java.lang:type=Threading" attribute="ThreadCount,PeakThreadCount,TotalStartedThreadCount" />
+			<check graph="${threadCount}" message="Live : ${threadCount} Peak : ${peakCount} Total : ${totalCount}"/> 
+		</eval>
+		<eval name="Memory">
+			<query var="memory" objectName="java.lang:type=Memory" attribute="HeapMemoryUsage" />
+			<check graph="${memory.get('used')}" message="init : ${memory.get('init')}, max : ${memory.get('max')}, used : ${memory.get('used')}, committed : ${memory.get('committed')}"/> 
+		</eval>
+		<eval name="Class">
+			<query var="classCount" objectName="java.lang:type=ClassLoading" attribute="LoadedClassCount" />
+			<check graph="${classCount}" message="classCount : ${classCount}"/> 
+		</eval>
+		<eval name="CPU">
+			<query var="cpu" objectName="java.lang:type=OperatingSystem" attribute="SystemCpuLoad" />
+			<check graph="${cpu}" message="Cpu use rate : ${cpu}%"/> 
+		</eval>
+	</connection>
+</jmxeval:jmxeval>
+
+<daram>
+<connection url="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi">
+        <object objectName="java.lang:type=Threading">
+            <attribute name="ThreadCount" var="threadCount" warning ="ref('beanname.method(threadCount)"))" error="20-" post="abcddd.abc(status)"/>
+            <attribute name="ThreadCount" var="threadCount"/>
+            <attribute name="ThreadCount" var="threadCount"/>
+        </object>
+</connection/>
+<algorithm>
+    <pattern sdfjlksdjlkdfs(sadfsafasdasdfdsasfd)
+      sdfjlsdf
+</algorithm>
+<design name="Memory">
+    <caption format="init : ${memory.get('init')}, max : ${memory.get('max')}, used : ${memory.get('used')}, committed : ${memory.get('committed')}" />
+    <graph value="${memory.get('used')}" detail="was"/>
+    <graph value="${memory.get('used')}" detail="db"/>
+</design>
+</daram>

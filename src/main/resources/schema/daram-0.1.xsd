@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.beatific.org/schema/daram-0.1"
+    xmlns:daram="http://www.beatific.org/schema/daram-0.1">
+    
+  <xs:element name="daram">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="connection" type="daram:connection" minOccurs="1" maxOccurs="unbounded"/>
+        <xs:element name="design" type="daram:design" minOccurs="1" maxOccurs="unbounded"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="connection">
+    <xs:sequence>
+      <xs:element name="object" type="daram:object" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="url" type="xs:string" use="required" />
+    <xs:attribute name="username" type="xs:string" />
+    <xs:attribute name="password" type="xs:string" />
+    <xs:attribute name="ssl" type="xs:boolean" />
+  </xs:complexType>
+  
+  <xs:complexType name="object">
+    <xs:sequence>
+      <xs:element name="attribute" type="daram:attribute" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="objectName" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="attribute">
+    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="var" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="design">
+    <xs:sequence>
+      <xs:element name="caption" type="daram:caption" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="graph" type="daram:graph" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="name" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="caption">
+    <xs:attribute name="format" type="xs:string" />
+  </xs:complexType>
+  
+  <xs:complexType name="graph">
+    <xs:attribute name="x-value" type="xs:string" />
+    <xs:attribute name="y-value" type="xs:string" />
+    <xs:attribute name="detail" type="xs:string" />
+  </xs:complexType>
+  
+</xs:schema>
