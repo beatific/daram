@@ -14,7 +14,7 @@
   
   <xs:complexType name="connection">
     <xs:sequence>
-      <xs:element name="object" type="daram:object" minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="object" type="daram:mbean" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="url" type="xs:string" use="required" />
     <xs:attribute name="username" type="xs:string" />
@@ -22,7 +22,7 @@
     <xs:attribute name="ssl" type="xs:boolean" />
   </xs:complexType>
   
-  <xs:complexType name="object">
+  <xs:complexType name="mbean">
     <xs:sequence>
       <xs:element name="attribute" type="daram:attribute" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
