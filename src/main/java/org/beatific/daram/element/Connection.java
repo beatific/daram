@@ -15,6 +15,7 @@ import org.w3c.dom.Node;
 
 public class Connection extends Element {
 
+	private String name;
 	private String url;
 	private String username;
 	private String password;
@@ -23,6 +24,7 @@ public class Connection extends Element {
 	public Connection(final Node node, final Element parentElement) {
 		super(parentElement);
 
+		name = getNodeAttribute(node, "name");
 		url = getNodeAttribute(node, "url");
 		username = getNodeAttribute(node, "username");
 		password = getNodeAttribute(node, "password");

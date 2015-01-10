@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <daram:daram xmlns:daram="http://www.beatific.org/schema/daram-0.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<connection
+	<connection name="server"
 		url="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi">
 		<mbean objectName="java.lang:type=Threading">
 			<attribute var="threadCount" name="ThreadCount"/>

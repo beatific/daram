@@ -16,4 +16,5 @@ public interface Context {
 	public void setCaption(String caption);
 	public void addGraph(String x, String y, String name);
 	public void setName(String name);
+	public void clear();
 }

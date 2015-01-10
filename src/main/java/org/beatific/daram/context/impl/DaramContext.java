@@ -8,6 +8,7 @@ import javax.management.MBeanServerConnection;
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 
+import org.beatific.daram.constraint.Assert;
 import org.beatific.daram.context.Context;
 import org.beatific.daram.pattern.REMatchers;
 import org.beatific.daram.result.DesignResult;
@@ -24,6 +25,8 @@ public class DaramContext implements Context {
 	private DesignResult currentDesign;
 	
 	public DaramContext(Map<String, String> config) {
+		Assert.notNull(config);
+		
 		this.attributes = new HashMap<String, Object>();
 		this.config = config;
 	}
@@ -37,15 +40,22 @@ public class DaramContext implements Context {
 	}
 	
 	public void setConnection(MBeanServerConnection connection) {
+		Assert.notNull(connection);
+		
 		this.connection = connection;
 	}
 	public void setObjectName(String objectName) {
+		Assert.notNull(objectName);
+		
 		try {
 			this.mbeanName = new ObjectName(objectName);
 		} catch (MalformedObjectNameException e) {}
 	}
 	
 	public void setAttribute(String var, String attribute) {
+		Assert.notNull(var);
+		Assert.notNull(attribute);
+		
 		if(attributes.containsKey(var))return;
 		try {
 		    Object value = connection.getAttribute(mbeanName, attribute);
@@ -63,6 +73,8 @@ public class DaramContext implements Context {
 	
 	public void setName(String name) {
 		
+		Assert.notNull(name);
+		
 		if(result.getDesigns() == null) {
 			result.setDesigns(new ArrayList());
 		}
@@ -74,6 +86,10 @@ public class DaramContext implements Context {
 
 	@Override
 	public void addGraph(String x, String y, String name) {
+		
+		Assert.notNull(x);
+		Assert.notNull(y);
+		Assert.notNull(name);
 		
 		Double doubleX, doubleY;
 		if(currentDesign.getGraphs() == null) {
@@ -87,6 +103,14 @@ public class DaramContext implements Context {
 		else throw new RuntimeException("y isn't set decimal value[" + y + "]");
 		
 		currentDesign.getGraphs().add(new GraphResult().setX(doubleX).setY(doubleY).setName(name));
+	}
+
+	@Override
+	public void clear() {
+		this.attributes.clear();
+		this.mbeanName = null;
+		this.result = new Result();
+		this.currentDesign = null;
 	}
 	
 	

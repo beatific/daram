@@ -68,13 +68,13 @@ public class Element {
 	    	  attribute = methodMatcher.group(1);
 	    	  method = methodMatcher.group(2);
 	    	  args = methodMatcher.group(3).split(",");
-	    	  
 	    	  Object object = context.getAttribute(attribute);
 	    	  result = invoke(object, method, TransferObjectType(args));
 	      } else {
 	          result = context.getAttribute(attribute);
 	      }
 	      
+	      if(result == null)return null;
 	      matcher.appendReplacement(buffer, String.valueOf(result));
 	    }
 	    matcher.appendTail(buffer);
@@ -82,7 +82,8 @@ public class Element {
 	    return buffer.toString();
 	}
 	
-	protected Object invoke(Object object, String methodName, Object... args) {
+	protected Object invoke(Object object, String methodName, Object[] args) {
+		if(object == null)return null;
 		Class<?> clazz = object.getClass();
 		Method method = null;
 		Object result = null;
