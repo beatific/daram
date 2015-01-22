@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.beatific</groupId>
-  <artifactId>daram</artifactId>
-  <version>${daram.version}</version>
-  <packaging>pom</packaging>
-  <name>daram</name>
-  
-  <properties>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.beatific</groupId>
+	<artifactId>daram</artifactId>
+	<version>${daram.version}</version>
+	<packaging>pom</packaging>
+	<name>daram</name>
+
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.integration.version>4.0.6.RELEASE</spring.integration.version>
 		<spring.version>4.1.1.RELEASE</spring.version>
@@ -19,7 +19,7 @@
 		<wro4j.version>1.7.0</wro4j.version>
 		<daram.version>0.0.1-SNAPSHOT</daram.version>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>repo.springsource.org.milestone</id>
@@ -27,13 +27,14 @@
 			<url>https://repo.springsource.org/milestone</url>
 		</repository>
 	</repositories>
-	
-  <modules>
-  <module>daram-core</module>
-  </modules>
-  
-	
-  <build>
+
+	<modules>
+		<module>daram-core</module>
+		<module>daram-core-spring</module>
+	</modules>
+
+
+	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -63,4 +64,3 @@
 		</plugins>
 	</build>
 </project>
-

@@ -13,13 +13,14 @@ import javax.management.remote.JMXServiceURL;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 import org.beatific.daram.mbean.MBean;
+import org.beatific.daram.mbean.MBeanConnection;
 import org.beatific.daram.mbean.MBeanManager;
 import org.beatific.ddirori.bean.BeanDefinition;
 import org.beatific.ddirori.bean.Constructor;
 import org.beatific.ddirori.bean.annotation.Action;
 import org.beatific.ddirori.type.TagType;
 
-@Action(tag="connection", type=TagType.BEAN)
+@Action(tag="connection", type=TagType.ATTRIBUTE)
 public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 
 	@Override
@@ -27,24 +28,25 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 		
 		String basePackage = (String)definition.parent().attributes().get("basePackage");
 		
-		MBeanManager manager = new MBeanManager(basePackage);
+		MBeanManager.setBasePacket(basePackage);
 		String url = (String)definition.attributes().get("url");
 		String username = (String)definition.attributes().get("username");
 		String password = (String)definition.attributes().get("password");
 		String ssl = definition.attributes().get("ssl") == null ? Boolean.FALSE.toString() : (String)definition.attributes().get("ssl");
 		
-		manager.setConnection(getConnection(url, username, password, ssl));
+		
+		MBeanConnection connection = new MBeanConnection();
+		connection.setConnection(getConnection(url, username, password, ssl));
 		
 		List<MBean> mbeans = new ArrayList<MBean>();
 		
 		for(BeanDefinition child : definition.children()) {
 			if("mbean".equals(child.getTagName()))
 				mbeans.add(getMBean(child));
-			
 		}
 		
-		manager.setMbeans(mbeans);
-		
+		connection.setMbeans(mbeans);
+		MBeanManager.addConnection(connection);
 		
 		return null;
 	}

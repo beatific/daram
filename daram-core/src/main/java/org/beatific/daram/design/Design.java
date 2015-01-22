@@ -1,7 +1,7 @@
 package org.beatific.daram.design;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.beatific.daram.mbean.MBeanManager;
 import org.beatific.ddirori.context.ApplicationContextUtils;
@@ -12,10 +12,11 @@ public class Design {
 	private String name;
 	private String caption;
 	private String captionExpression;
-	private final Map<String, Graph> graphs = new HashMap<String, Graph>();
+	private final List<Graph> graphs = new ArrayList<Graph>();
 	private String xTag;
 	private String yTag;
 	private final RepositoryStore store = ApplicationContextUtils.getApplicationContext().getStore();
+	private Long monitorId;
 	
 	public String getName() {
 		return name;
@@ -29,36 +30,52 @@ public class Design {
 		return caption;
 	}
 	
+	public Long getMonitorId() {
+		return monitorId;
+	}
+
+	public void setMonitorId(Long monitorId) {
+		this.monitorId = monitorId;
+	}
+
 	public void setCaptionExpression(String captionExpression) {
 		this.captionExpression = captionExpression;
 	}
 	
-	public void loadDesign(MBeanManager manager) {
-		graphs.clear();
-		caption = null;
-		
-		loadCaption(manager);
-		loadGraphs(manager);
-		
+	public void save() {
 		store.save(this);
 	}
 	
-	private void loadCaption(MBeanManager manager) {
-		this.caption = (String)manager.extract(this.captionExpression);
+	public Long loadDesign(Long monitorId) {
+		
+		graphs.clear();
+		caption = null;
+		
+		this.monitorId = monitorId;
+		
+		loadCaption();
+		loadGraphs();
+		
+		store.change(this);
+		return this.monitorId;
 	}
 	
-	private void loadGraphs(MBeanManager manager) {
-		for(Graph graph : this.graphs.values()) {
-			graph.loadGraph(manager);
+	private void loadCaption() {
+		this.caption = (String)MBeanManager.extract(this.captionExpression);
+	}
+	
+	private void loadGraphs() {
+		for(Graph graph : this.graphs) {
+			graph.loadGraph();
 		}
 	}
 	
-	public Map<String, Graph> getGraphs() {
+	public List<Graph> getGraphs() {
 		return graphs;
 	}
 	
-	public void addGraph(String name, Graph graph) {
-		this.graphs.put(name, graph);
+	public void addGraph(Graph graph) {
+		this.graphs.add(graph);
 	}
 	
 	public String getxTag() {

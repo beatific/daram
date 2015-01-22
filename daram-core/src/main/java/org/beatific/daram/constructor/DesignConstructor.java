@@ -1,8 +1,5 @@
 package org.beatific.daram.constructor;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.beatific.daram.design.Design;
 import org.beatific.daram.design.DesignHolder;
 import org.beatific.daram.design.Graph;
@@ -22,13 +19,12 @@ public class DesignConstructor implements Constructor<Design>{
 		design.setxTag((String)definition.attributes().get("x-tag"));
 		design.setyTag((String)definition.attributes().get("y-tag"));
 		
-		Map<String, Graph> graphs = new HashMap<String, Graph>();
 		for(BeanDefinition child : definition.children()) {
 			if("caption".equals(child.getTagName())) {
 				design.setCaptionExpression((String)child.attributes().get("format"));
 			}
 			if("graph".equals(child.getTagName())) {
-				design.addGraph((String)child.attributes().get("name"), newGraph((String)child.attributes().get("x-value"), (String)child.attributes().get("y-value")));
+				design.addGraph(newGraph((String)child.attributes().get("name"), (String)child.attributes().get("y-value")));
 			}
 		}
 
@@ -37,9 +33,9 @@ public class DesignConstructor implements Constructor<Design>{
 		return design;
 	}
 
-	private Graph newGraph(String xExpression, String yExpression) {
+	private Graph newGraph(String graphName, String yExpression) {
 		Graph graph = new Graph();
-		graph.setxExpression(xExpression);
+		graph.setName(graphName);
 		graph.setyExpression(yExpression);
 		return graph;
 	}

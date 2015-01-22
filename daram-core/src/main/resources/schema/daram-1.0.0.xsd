@@ -48,7 +48,7 @@
   </xs:complexType>
   
   <xs:complexType name="graph">
-    <xs:attribute name="x-value" type="xs:string" />
+    <!-- <xs:attribute name="x-value" type="xs:string" /> -->
     <xs:attribute name="y-value" type="xs:string" />
     <xs:attribute name="name" type="xs:string" />
   </xs:complexType>

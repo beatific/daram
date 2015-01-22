@@ -4,19 +4,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.beatific.daram.mbean.MBeanManager;
-
 public class DesignHolder {
 
 	private static Map<String, Design> holder = new LinkedHashMap<String, Design>();
 	
 	public static void hold(Design design) {
+		if(holder.containsKey(design.getName()))return;
+		
+		design.save();
 		holder.put(design.getName(), design);
 	}
 	
-	public static void reload(MBeanManager manager) {
+	public static void reload() {
+		Long monitorId = null;
 		for(Entry<String, Design> entry : holder.entrySet()) {
-			entry.getValue().loadDesign(manager);
+			monitorId = entry.getValue().loadDesign(monitorId);
 		}
 	}
 	

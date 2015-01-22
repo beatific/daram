@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.beatific.daram.core.spring.dao.DesignDao">
+
+    <insert id="insertDesign" parameterType="org.beatific.daram.core.spring.dao.vo.DesignVo">
+        /* DesignDao.insertDesign */
+        INSERT INTO TB_DESIGN
+        (
+            DESIGN_NAME 
+            , X_TAG 
+            , Y_TAG
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{designName} 
+            , #{xTag} 
+            , #{yTag}
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+    <insert id="insertMonitor" parameterType="org.beatific.daram.core.spring.dao.vo.MonitorVo">
+        /* DesignDao.insertMonitor */
+        INSERT INTO TB_MONITOR
+        (
+            MONITOR_ID 
+            , MONITOR_TIME 
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{monitorId} 
+            , SYSTIMESTAMP 
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+    <insert id="insertMonitorDesign" parameterType="org.beatific.daram.core.spring.dao.vo.MonitorDesignVo">
+        /* DesignDao.insertMonitorDesign */
+        INSERT INTO TB_MONITOR_DESIGN
+        (
+            MONITOR_ID 
+            , DESIGN_NAME
+            , CAPTION 
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{monitorId} 
+            , #{designName}
+            , #{caption} 
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+    <insert id="insertMonitorGraph" parameterType="org.beatific.daram.core.spring.dao.vo.MonitorGraphVo">
+        /* DesignDao.insertMonitorGraph */
+        INSERT INTO TB_MONITOR_GRAPH
+        (
+            MONITOR_ID 
+            , DESIGN_NAME
+            , GRAPH_NAME
+            , Y_VALUE 
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{monitorId} 
+            , #{designName}
+            , #{graphName}
+            , #{yValue}
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+</mapper>
