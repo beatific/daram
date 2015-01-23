@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <daram:daram xmlns:daram="http://www.beatific.org/schema/daram-0.1"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<connection name="server"
+	<connection id="server" basePackage="org.beatific"  
 		url="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi">
 		<mbean objectName="java.lang:type=Threading">
 			<attribute var="threadCount" name="ThreadCount"/>
@@ -18,19 +18,19 @@
 			<attribute var="cpu" name="SystemCpuLoad"/>
 		</mbean>
 	</connection>
-	<design name="Memory">
+	<design id="memory" name="Memory">
 		<caption format="init : ${memory.get('init')}, max : ${memory.get('max')}, used : ${memory.get('used')}, committed : ${memory.get('committed')}" />
 		<graph x-value="$[date]" y-value="${memory.get('used')}" name="used" />
 	</design>
-	<design name="Threads">
+	<design id="threads" name="Threads">
 		<caption format="Live : ${threadCount} Peak : ${peakCount} Total : ${totalCount}" />
 		<graph x-value="$[date]" y-value="${threadCount}" name="live" />
 	</design>
-	<design name="Class">
+	<design id="class" name="Class">
 		<caption format="classCount : ${classCount}" />
 		<graph x-value="$[date]" y-value="${classCount}" name="class" />
 	</design>
-	<design name="CPU">
+	<design id="cpu" name="CPU">
 		<caption format="use rate : ${cpu}%" />
 		<graph x-value="$[date]" y-value="${cpu}" name="cpu" />
 	</design>

@@ -1,16 +1,8 @@
 package org.beatific.daram.constructor;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.management.MBeanServerConnection;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 import org.beatific.daram.mbean.MBean;
 import org.beatific.daram.mbean.MBeanConnection;
@@ -26,7 +18,7 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 	@Override
 	public MBeanManager create(BeanDefinition definition) {
 		
-		String basePackage = (String)definition.parent().attributes().get("basePackage");
+		String basePackage = (String)definition.attributes().get("basePackage");
 		
 		MBeanManager.setBasePacket(basePackage);
 		String url = (String)definition.attributes().get("url");
@@ -34,9 +26,11 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 		String password = (String)definition.attributes().get("password");
 		String ssl = definition.attributes().get("ssl") == null ? Boolean.FALSE.toString() : (String)definition.attributes().get("ssl");
 		
-		
 		MBeanConnection connection = new MBeanConnection();
-		connection.setConnection(getConnection(url, username, password, ssl));
+		connection.setUrl(url);
+		connection.setUsername(username);
+		connection.setPassword(password);
+		connection.setSsl(ssl);
 		
 		List<MBean> mbeans = new ArrayList<MBean>();
 		
@@ -67,30 +61,4 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 		return mbean;
 	}
 
-	private MBeanServerConnection getConnection(String url, String username, String password, String ssl) {
-		JMXConnector jmxConnector = null;
-		try {
-			final JMXServiceURL jmxServiceURL = new JMXServiceURL(url);
-			final Map<String, Object> jmxEnv = new HashMap<String, Object>();
-
-			if (username != null && password != null) {
-				jmxEnv.put(JMXConnector.CREDENTIALS, new String[] {username, password});
-			}
-
-			if (Boolean.parseBoolean(ssl)) {
-				SslRMIClientSocketFactory csf = new SslRMIClientSocketFactory();
-				jmxEnv.put("com.sun.jndi.rmi.factory.socket", csf);
-			}
-
-			jmxConnector = JMXConnectorFactory.connect(jmxServiceURL, jmxEnv);
-
-			return jmxConnector.getMBeanServerConnection();
-
-		} catch (Exception e) {
-			throw new GetConnectionException(e);
-		} finally {
-			if (jmxConnector != null) try { jmxConnector.close(); } catch (IOException e) {}
-		}
-		
-	}
 }
