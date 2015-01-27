@@ -46,12 +46,12 @@ public class DesignRepository extends OneStateRepository<Design> {
 		designVo.setDesignName(design.getName());
 		designVo.setxTag(design.getxTag());
 		designVo.setyTag(design.getyTag());
-		dao.insertDesign(designVo);
+		if(getDao().selectDesign(designVo) != null) return;
+		getDao().insertDesign(designVo);
 	}
 
 	@Override
 	public Design load(Object object) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -62,10 +62,10 @@ public class DesignRepository extends OneStateRepository<Design> {
 		
 		Long monitorId = design.getMonitorId();
 		if(monitorId == null) {
-			monitorId = dao.selectMonitorPk();
+			monitorId = getDao().selectMonitorPk();
 			MonitorVo monitorVo = new MonitorVo();
 			monitorVo.setMonitorId(monitorId);
-			dao.insertMonitor(monitorVo);
+			getDao().insertMonitor(monitorVo);
 		}
 		
 		design.setMonitorId(monitorId);
@@ -74,7 +74,7 @@ public class DesignRepository extends OneStateRepository<Design> {
 		monitorDesignVo.setMonitorId(monitorId);
 		monitorDesignVo.setDesignName(design.getName());
 		monitorDesignVo.setCaption(design.getCaption());
-		dao.insertMonitorDesign(monitorDesignVo);
+		getDao().insertMonitorDesign(monitorDesignVo);
 		
 		MonitorGraphVo monitorGraphVo = new MonitorGraphVo();
 		monitorGraphVo.setMonitorId(monitorId);
@@ -82,14 +82,13 @@ public class DesignRepository extends OneStateRepository<Design> {
 		for(Graph graph : design.getGraphs()) {
 			monitorGraphVo.setGraphName(graph.getName());
 			monitorGraphVo.setyValue(graph.getY());
-			dao.insertMonitorGraph(monitorGraphVo);
+			getDao().insertMonitorGraph(monitorGraphVo);
 		}
 		
 	}
 
 	@Override
 	public void remove(Object object) {
-		// TODO Auto-generated method stub
 	}
 
 }

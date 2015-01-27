@@ -10,7 +10,6 @@ public class DesignHolder {
 	
 	public static void hold(Design design) {
 		if(holder.containsKey(design.getName()))return;
-		
 		design.save();
 		holder.put(design.getName(), design);
 	}

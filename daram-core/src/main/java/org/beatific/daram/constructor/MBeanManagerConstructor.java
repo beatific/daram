@@ -48,7 +48,6 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 	private MBean getMBean(BeanDefinition definition) {
 		MBean mbean = new MBean();
 
-		
 		Map<String, Object> map = definition.attributes();
 		mbean.setObjectName((String)map.get("objectName"));
 		

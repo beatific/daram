@@ -22,8 +22,7 @@ public class DesignConstructor implements Constructor<Design>{
 		for(BeanDefinition child : definition.children()) {
 			if("caption".equals(child.getTagName())) {
 				design.setCaptionExpression((String)child.attributes().get("format"));
-			}
-			if("graph".equals(child.getTagName())) {
+			} else if("graph".equals(child.getTagName())) {
 				design.addGraph(newGraph((String)child.attributes().get("name"), (String)child.attributes().get("y-value")));
 			}
 		}

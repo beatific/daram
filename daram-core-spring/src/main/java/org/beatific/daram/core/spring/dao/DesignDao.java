@@ -13,4 +13,5 @@ public interface DesignDao {
 	public void insertMonitor(MonitorVo vo);
 	public void insertMonitorDesign(MonitorDesignVo vo);
 	public void insertMonitorGraph(MonitorGraphVo vo);
+	public DesignVo selectDesign(DesignVo designVo);
 }

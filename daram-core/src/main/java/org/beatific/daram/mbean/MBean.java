@@ -1,5 +1,6 @@
 package org.beatific.daram.mbean;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -29,14 +30,15 @@ public class MBean {
 		this.attributes.put(name, attribute);
 	}
 	
-	public Map<String, Object> loadMBean(MBeanServerConnection connection) {
+	public Map<String, Object> loadMBean(MBeanConnection connection) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		for(Entry<String, String> entry : attributes.entrySet())
 		try {
-			
 		    Object value = connection.getAttribute(objectName, entry.getValue());
 		    result.put(entry.getKey(), value);
-		} catch (Exception e) {}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 

@@ -5,7 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.management.AttributeNotFoundException;
+import javax.management.InstanceNotFoundException;
+import javax.management.MBeanException;
 import javax.management.MBeanServerConnection;
+import javax.management.ObjectName;
+import javax.management.ReflectionException;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
@@ -22,6 +27,7 @@ public class MBeanConnection {
 	
 	private MBeanServerConnection connection;
 	private List<MBean> mbeans;
+	private JMXConnector jmxConnector;
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -47,13 +53,22 @@ public class MBeanConnection {
 		this.mbeans = mbeans;
 	}
 	
+	public Object getAttribute(ObjectName name, String attribute) throws AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException {
+		try {
+			return getConnection().getAttribute(name, attribute);
+		} catch (IOException e) {
+			disconnect();
+			throw e;
+		} 
+	}
+	
 	private MBeanServerConnection getConnection() {
 		if(this.connection == null) this.connection = connect();
 		return this.connection;
 	}
 	
 	private MBeanServerConnection connect() {
-		JMXConnector jmxConnector = null;
+		
 		try {
 			final JMXServiceURL jmxServiceURL = new JMXServiceURL(url);
 			final Map<String, Object> jmxEnv = new HashMap<String, Object>();
@@ -72,11 +87,17 @@ public class MBeanConnection {
 			return jmxConnector.getMBeanServerConnection();
 
 		} catch (Exception e) {
+//			e.printStackTrace();
 			return null;
-		} finally {
-			if (jmxConnector != null) try { jmxConnector.close(); } catch (IOException e) {}
-		}
+		} 
 		
+	}
+	
+	public void disconnect() {
+
+		if (jmxConnector != null) try { jmxConnector.close(); } catch (IOException e) {}
+		connection = null;
+
 	}
 	
 	public Map<String, Object> reload() {
@@ -84,7 +105,7 @@ public class MBeanConnection {
 		Map<String, Object> beans = new HashMap<String, Object>();
 		if(getConnection() == null) return null;
 		for(MBean mbean : mbeans)  {
-			beans.putAll(mbean.loadMBean(getConnection()));
+			beans.putAll(mbean.loadMBean(this));
 		}
 		return beans;
 	}

@@ -3,6 +3,19 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.beatific.daram.core.spring.dao.DesignDao">
 
+    <select id="selectDesign" parameterType="org.beatific.daram.core.spring.dao.vo.DesignVo" resultType="org.beatific.daram.core.spring.dao.vo.DesignVo">
+       SELECT DESIGN_NAME designName
+              , X_TAG xTag
+              , Y_TAG yTag
+         FROM TB_DESIGN
+        WHERE DESIGN_NAME = #{designName}
+    </select>
+    
+    <select id="selectMonitorPk" resultType="java.lang.Long">
+       SELECT MONITOR_SEQ.NEXTVAL
+         FROM DUAL
+    </select>
+    
     <insert id="insertDesign" parameterType="org.beatific.daram.core.spring.dao.vo.DesignVo">
         /* DesignDao.insertDesign */
         INSERT INTO TB_DESIGN

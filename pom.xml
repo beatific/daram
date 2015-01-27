@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.beatific</groupId>
 	<artifactId>daram</artifactId>
-	<version>${daram.version}</version>
+	<version>0.0.1-RELEASE</version>
 	<packaging>pom</packaging>
 	<name>daram</name>
 
@@ -17,7 +17,7 @@
 		<junit.version>4.11</junit.version>
 		<log4j.version>1.2.17</log4j.version>
 		<wro4j.version>1.7.0</wro4j.version>
-		<daram.version>0.0.1-SNAPSHOT</daram.version>
+		<daram.version>0.0.1-RELEASE</daram.version>
 	</properties>
 
 	<repositories>
