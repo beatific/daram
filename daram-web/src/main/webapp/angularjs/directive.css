@@ -1,0 +1,17 @@
+.table {
+border: 1px solid black;
+text-align: center;
+vertical-align: middle;
+width: 400px;
+}
+.table > .title {
+background-color: #F5AF64;
+text-align: center;
+color: black;
+padding: .1em .3em;
+cursor: pointer;
+}
+.table > .body {
+background-color: #FFE4E1;
+padding: .1em .3em;
+}

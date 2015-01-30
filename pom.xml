@@ -21,16 +21,22 @@
 	</properties>
 
 	<repositories>
-		<repository>
+<!-- 		<repository>
 			<id>repo.springsource.org.milestone</id>
 			<name>Spring Framework Maven Milestone Repository</name>
 			<url>https://repo.springsource.org/milestone</url>
+		</repository> -->
+		<repository>
+			<id>central</id>
+			<url>https://repo1.maven.org/maven2</url>
 		</repository>
+
 	</repositories>
 
 	<modules>
 		<module>daram-core</module>
 		<module>daram-core-spring</module>
+		<module>daram-web</module>
 	</modules>
 
 

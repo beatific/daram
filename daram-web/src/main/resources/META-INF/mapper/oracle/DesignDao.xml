@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.beatific.daram.web.dao.DesignDao">
+
+    <select id="listDesign" parameterType="org.beatific.daram.web.vo.dao.DesignVo" resultType="org.beatific.daram.web.vo.dao.DesignVo">
+        /* DesignDao.listDesign */
+       SELECT DESIGN_NAME designName
+              , X_TAG xTag
+              , Y_TAG yTag
+              , DENOMINATION denomination
+         FROM TB_DESIGN
+    </select>
+    
+    <select id="selectDashBoardPk" resultType="java.lang.Long">
+       /* DesignDao.selectDashBoardPk */
+       SELECT DASH_BOARD_SEQ.NEXTVAL
+         FROM DUAL
+    </select>
+    
+    <select id="listDashBoard" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo" resultType="org.beatific.daram.web.vo.dao.DashBoardVo">
+        /* DesignDao.listDashBoard */
+        SELECT DASH_BOARD_ID dashBoardId
+               , DASH_BOARD_NAME dashBoardName
+          FROM TB_DASH_BOARD
+    </select>
+    
+    <insert id="insertDashBoard" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo">
+        /* DesignDao.insertDashBoard */
+        INSERT INTO TB_DASH_BOARD
+        (
+            DASH_BOARD_ID 
+            , DASH_BOARD_NAME 
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{dashBoardId} 
+            , #{dashBoardName} 
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+    <delete id="deleteDashBoard" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo">
+        /* DesignDao.deleteDashBoard */
+        DELETE 
+          FROM TB_DASH_BOARD
+         WHERE DASH_BOARD_ID = #{dashBoardId}
+    </delete>
+    
+    <insert id="insertDesignPerDashBoard" parameterType="org.beatific.daram.web.vo.dao.DesignPerDashBoardVo">
+        /* DesignDao.insertDesignPerDashBoard */
+        INSERT INTO TB_DESIGN_PER_DASH_BOARD
+        (
+            DASH_BOARD_ID 
+            , DESIGN_NAME 
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{dashBoardId} 
+            , #{designName} 
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+     <delete id="deleteDesignPerDashBoard" parameterType="org.beatific.daram.web.vo.dao.DesignPerDashBoardVo">
+        /* DesignDao.deleteDesignPerDashBoard */
+        DELETE 
+          FROM TB_DESIGN_PER_DASH_BOARD
+         WHERE DASH_BOARD_ID = #{dashBoardId}
+    </delete>
+    
+    <select id="listDesignPerDashBoard" parameterType="org.beatific.daram.web.vo.dao.DesignPerDashBoardVo" resultType="org.beatific.daram.web.vo.dao.DesignPerDashBoardVo">
+        /* DesignDao.listDesignPerDashBoard */
+        SELECT DASH_BOARD_ID dashBoardId
+               , DESIGN_NAME designName
+          FROM TB_DESIGN_PER_DASH_BOARD
+         WHERE DASH_BOARD_ID = #{dashBoardId}  
+    </select>
+    
+    
+    <select id="listMonitorGraphByDesign" parameterType="org.beatific.daram.web.vo.dao.MonitorGraphVo" resultType="org.beatific.daram.web.vo.dao.MonitorGraphVo">
+        SELECT A.MONITOR_ID monitorId
+               , A.MONITOR_TIME monitorTime
+               , B.DESIGN_NAME designName
+               , C.GRAPH_NAME graphName
+               , C.Y_VALUE yValue
+          FROM TB_MONITOR A, TB_MONITOR_DESIGN B, TB_MONITOR_GRAPH C
+         WHERE A.MONITOR_ID = B.MONITOR_ID
+           AND B.MONITOR_ID = C.MONITOR_ID
+           AND B.DESIGN_NAME = C.DESIGN_NAME
+           AND B.DESIGN_NAME = #{designName}
+           AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24MISS') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24MISS')
+         ORDER BY monitorId
+    </select>
+    
+</mapper>

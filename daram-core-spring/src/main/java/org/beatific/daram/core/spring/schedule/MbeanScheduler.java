@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MbeanScheduler {
 
-	@Scheduled(cron = "* */1 * * * *")
+	@Scheduled(fixedDelay = 60000)
 	public void run() {
 		
 		MBeanManager.reload();

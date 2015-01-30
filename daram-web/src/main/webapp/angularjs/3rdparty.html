@@ -1,0 +1,31 @@
+<html ng-app>
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+</head>
+ 
+<script>
+function MainCtrl( $scope )
+{
+    $scope.text = "";
+    $scope.btnClick = function()
+    {
+        $scope.text = "Hi AngularJS"; //변경 내용이 화면에 나타남
+    }
+ 
+    $( "#btn2" ).click( function()
+    {
+    	$scope.$apply(function(){
+            $scope.text = "Hi jQuery";  //변경 내용이 화면에 나타남
+        });
+    });
+}
+</script>
+ 
+<body ng-controller="MainCtrl">
+    <div>{{text}}</div>
+    <input id="btn1" type="button" value="AngularJS" ng-click="btnClick()" />
+    <input id="btn2" type="button" value="jQuery" />
+</body> 
+ 
+</html>

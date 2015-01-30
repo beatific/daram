@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+    <title>Angular.js nvd3.js Line Chart Directive</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF8">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="js/d3.js"></script>
+    <script src="js/nv.d3.js"></script>
+    <script src="js/moment.js"></script>
+    <link rel="stylesheet" href="stylesheets/daram.css"/>
+    <script>
+        var app = angular.module("nvd3TestApp");
+
+        function ExampleCtrl($scope, $http){
+        	
+            $scope.memoryData = [];
+            $scope.threadsData = [];
+            $scope.cpuData = [];
+            $scope.classData = [];
+            $scope.time = {};
+            $scope.width = 800;
+            $scope.height = 600;
+            
+            $scope.getGraphs = function() {
+            	$http({
+            	     method: 'POST',
+           			 url: 'http://localhost:8081/daram-web/monitor/graph',
+           			 headers: {
+           			   'Content-Type': 'application/json; charset=UTF-8'
+           			 },
+           			 data : {'fromTime' : $scope.time.from, 'toTime' : $scope.time.to }}
+            			).success(function(data) {
+            			$scope.memoryData = data.memory;
+            			$scope.threadsData = data.threads;
+            			$scope.cpuData = data.cpu;
+            			$scope.classData = data.clss;
+            			
+            		});
+            }
+
+            $scope.xAxisTicksFunction = function(){
+                console.log('xAxisTicksFunction');
+                console.log(d3.svg.axis().ticks(d3.time.minutes, 5));
+                return function(d){
+                    return d3.svg.axis().ticks(d3.time.minutes, 5);
+                }
+            };
+
+            $scope.xAxisTickFormatFunction = function(){
+                return function(d){
+                    return d3.time.format('%H:%M')(moment.unix(d).toDate());
+                }
+            };
+
+        }
+    </script>
+
+</head>
+<body ng-app='nvd3TestApp'>
+
+<div ng-controller="ExampleCtrl">
+    <form name='monitorForm'>
+        <div>From time : <input ng-model='time.from' required> ~ To time : <input ng-model='time.to' required> <a href="#" class="button save" ng-click='getGraphs()' ng-disabled='!monitorForm.$valid'>submit</a></div>
+        
+    </ng-form>
+    <table>
+    <tr>
+    <td>
+    <nvd3-line-chart
+            data="memoryData"
+            id="memoryId"
+            width="{{width}}"
+            height="{{height}}"
+            showXAxis="true"
+            showYAxis="true"
+            tooltips="true"
+            interactive="true"
+            xAxisTickFormat="xAxisTickFormatFunction()"
+            margin="{left:50,top:50,bottom:50,right:50}"
+            >
+        <svg></svg>
+    </nvd3-line-chart>
+    </td>
+    <td>
+    <nvd3-line-chart
+            data="threadsData"
+            id="threadsId"
+            width="{{width}}"
+            height="{{height}}"
+            showXAxis="true"
+            showYAxis="true"
+            tooltips="false"
+            interactive="true"
+            xAxisTickFormat="xAxisTickFormatFunction()"
+            margin="{left:50,top:50,bottom:50,right:50}"
+            >
+        <svg></svg>
+    </nvd3-line-chart>
+    </td>
+    </tr>
+    <tr>
+    <td>
+    <nvd3-line-chart
+            data="cpuData"
+            id="cpuId"
+            width="{{width}}"
+            height="{{height}}"
+            showXAxis="true"
+            showYAxis="true"
+            tooltips="false"
+            interactive="true"
+            xAxisTickFormat="xAxisTickFormatFunction()"
+            margin="{left:50,top:50,bottom:50,right:50}"
+            >
+        <svg></svg>
+    </nvd3-line-chart>
+    </td>
+    <td>
+    <nvd3-line-chart
+            data="classData"
+            id="classId"
+            width="{{width}}"
+            height="{{height}}"
+            showXAxis="true"
+            showYAxis="true"
+            tooltips="true"
+            interactive="true"
+            xAxisTickFormat="xAxisTickFormatFunction()"
+            margin="{left:50,top:50,bottom:50,right:50}"
+            >
+        <svg></svg>
+    </nvd3-line-chart>
+    </td>
+    </tr>
+    </table>
+</div>
+
+</body>
+</html>
