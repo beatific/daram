@@ -1,13 +1,19 @@
 <meta charset="utf-8">
 <html>
 <head>
-    <title>Chart</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF8">
-    <script src="js/angular.js"></script>
-    <script type="text/javascript" src="googlejs/googlechart.js"></script>
-    <script type="text/javascript" src="googlejs/monitor.js"></script>   
-    <link rel="stylesheet" href="stylesheets/daram.css"/>
-    <script>
+<title>Chart</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF8">
+<script src="js/angular.js"></script>
+<script type="text/javascript" src="googlejs/googlechart.js"></script>
+<script type="text/javascript" src="googlejs/monitor.js"></script>
+<link rel="stylesheet" href="stylesheets/daram.css" />
+<link rel="stylesheet" type="text/css" href="stylesheets/hangul.css">
+<style>
+      div.hallasan {
+        font-family: 'Jeju Hallasan', fantasy;
+      }
+</style>
+<script>
         var app = angular.module("nvd3TestApp",[])
 
         var memory = [];
@@ -38,29 +44,25 @@
 </head>
 <body ng-app='nvd3TestApp'>
 
-<div ng-controller="ExampleCtrl">
-    <form name='monitorForm'>
-        <div>From time : <input ng-model='time.from' required> ~ To time : <input ng-model='time.to' required> <button ng-click='getGraphs()' ng-disabled='!monitorForm.$valid'>submit</button></div>
-    </ng-form>
-    <table>
-    <tr>
-    <td>
-    <div id="memory"></div>
-    </td>
-    <td>
-    <div id="threads"></div>
-    </td>
-    </tr>
-    <tr>
-    <td>
-   <div id="cpu"></div>
-    </td>
-    <td>
-   <div id="class"></div>
-    </td>
-    </tr>
-    </table>
-</div>
+	<div ng-controller="ExampleCtrl">
+		<form name='monitorForm'>
+			<div class='hallasan'>
+				From time : <input ng-model='time.from' required> ~ To time
+				: <input ng-model='time.to' required>
+				<button ng-click='getGraphs()' ng-disabled='!monitorForm.$valid'>submit</button>
+			</div>
+			</ng-form>
+			<table>
+				<tr>
+					<td><div id="memory" /></td>
+					<td><div id="threads" /></td>
+				</tr>
+				<tr>
+					<td><div id="cpu" /></td>
+					<td><div id="class" /></td>
+				</tr>
+			</table>
+	</div>
 
 </body>
 </html>

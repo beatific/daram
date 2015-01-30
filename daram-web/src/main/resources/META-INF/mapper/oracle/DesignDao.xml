@@ -93,7 +93,7 @@
            AND B.MONITOR_ID = C.MONITOR_ID
            AND B.DESIGN_NAME = C.DESIGN_NAME
            AND B.DESIGN_NAME = #{designName}
-           AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24MISS') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24MISS')
+           AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24')
          ORDER BY monitorId
     </select>
     

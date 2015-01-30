@@ -13,6 +13,9 @@
 
       table.addRows(data);
 
+      var dataView = new google.visualization.DataView(table);
+      dataView.setColumns([{calc: function(d, row) { return d.getFormattedValue(row, 0); }, type:'string'}, 1]);
+      
       var options = {
         width: 800,
         height: 350,
@@ -20,7 +23,7 @@
           title: xCaption
         },
         vAxis: {
-          title: denomination
+          title: denomination,
         }
       };
       
