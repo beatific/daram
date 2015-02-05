@@ -13,7 +13,7 @@
 		</websocket:handshake-interceptors>
 	</websocket:handlers>
  -->
-	<websocket:message-broker
+<!-- 	<websocket:message-broker
 		application-destination-prefix="/app">
 		<websocket:stomp-endpoint path="/chat">
 			<websocket:sockjs />
@@ -32,9 +32,8 @@
 				<bean class="org.springframework.web.socket.config.TestChannelInterceptor"/>
 			</websocket:interceptors>
 		</websocket:client-outbound-channel>
-	</websocket:message-broker>
+	</websocket:message-broker> -->
 	
-	<bean id="myInterceptor" class="org.beatific.daram.web.websocket.HandshakeInterceptor" />
 
 
 	<bean
