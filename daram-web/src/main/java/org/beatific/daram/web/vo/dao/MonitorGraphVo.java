@@ -1,6 +1,7 @@
 package org.beatific.daram.web.vo.dao;
 
 import java.util.Date;
+import java.util.List;
 
 public class MonitorGraphVo {
 
@@ -13,6 +14,14 @@ public class MonitorGraphVo {
 	private String fromTime; // YYYYMMDDHH24MISS
 	private String toTime;  // YYYYMMDDHH24MISS
 	
+	private List<DesignVo> designs;
+	
+	public List<DesignVo> getDesigns() {
+		return designs;
+	}
+	public void setDesigns(List<DesignVo> designs) {
+		this.designs = designs;
+	}
 	public String getFromTime() {
 		return fromTime;
 	}

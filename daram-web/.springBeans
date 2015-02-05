@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.6.0.201407080615-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+	</configs>
+	<autoconfigs>
+		<config>src/main/resources/META-INF/spring/context/context-config.xml</config>
+		<config>src/main/resources/META-INF/spring/context/context-transaction.xml</config>
+		<config>src/main/resources/META-INF/spring/context/context-datasource.xml</config>
+		<config>src/main/resources/META-INF/spring/mvc/servlet-context.xml</config>
+		<config>src/main/resources/META-INF/spring/context/context-mybatis.xml</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

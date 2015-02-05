@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery UI Sortable - Portlets</title>
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
+<script src="js/angular.js"></script>
+<script type="text/javascript" src="googlejs/googlechart.js"></script>
+<script type="text/javascript" src="googlejs/monitor.js"></script>
+<link rel="stylesheet" href="stylesheets/daram.css" />
+<link rel="stylesheet" type="text/css" href="stylesheets/hangul.css">
+<style>
+div.hallasan {
+	font-family: 'Jeju Hallasan', fantasy;
+}
+</style>
+<script>
+	var app = angular.module("app", []);
+
+	var memory = [];
+	app.controller("MyController", function($scope, $http) {
+
+		$scope.time = {};
+		$scope.designs = [];
+		$scope.selected = [];
+
+		$scope.getGraphs = function() {
+			$http({
+				method : 'POST',
+				url : 'http://localhost:8081/daram-web/monitor/graph',
+				headers : {
+					'Content-Type' : 'application/json; charset=UTF-8'
+				},
+				data : {
+					'fromTime' : $scope.time.from,
+					'toTime' : $scope.time.to,
+					'designs' : $scope.selected
+				}
+			}).success(
+					function(data) {
+
+						for (index in data.monitor) {
+							drawChart(data.monitor[index].graphs,
+									data.monitor[index].name,
+									data.monitor[index].xTag,
+									data.monitor[index].yTag,
+									data.monitor[index].denomination);
+						}
+
+					});
+		}
+
+		$scope.init = function() {
+			$http({
+				method : 'POST',
+				url : 'http://localhost:8081/daram-web/monitor/design',
+				headers : {
+					'Content-Type' : 'application/json; charset=UTF-8'
+				},
+				data : {}
+			}).success(function(data) {
+				$scope.designs = data.designs;
+
+			});
+		};
+
+		$scope.select = function(design) {
+			if ($scope.selected.indexOf(design) < 0)
+				$scope.selected.push(design);
+			else
+				$scope.selected.splice($scope.selected.indexOf(design), 1);
+			$scope.getGraphs();
+		};
+		
+		$scope.setLive = function() {
+			if($scope.live) {
+				$http({
+					method : 'POST',
+					url : 'http://localhost:8081/daram-web/monitor/live',
+					headers : {
+						'Content-Type' : 'application/json; charset=UTF-8'
+					},
+					data : {}
+				});
+			}
+		}
+
+	});
+</script>
+<style>
+body {
+	min-width: 520px;
+}
+
+.column {
+	width: 850;
+	float: left;
+	padding-bottom: 100px;
+}
+
+.portlet {
+	margin: 0 1em 1em 0;
+	padding: 0.3em;
+}
+
+.portlet-header {
+	padding: 0.2em 0.3em;
+	margin-bottom: 0.5em;
+	position: relative;
+}
+
+.portlet-toggle {
+	position: absolute;
+	top: 50%;
+	right: 0;
+	margin-top: -8px;
+}
+
+.portlet-content {
+	padding: 0.4em;
+}
+
+.portlet-placeholder {
+	border: 1px dotted black;
+	margin: 0 1em 1em 0;
+	height: 50px;
+}
+
+.ng-scope {
+	
+}
+</style>
+<script>
+	$(function() {
+		$(".column").sortable({
+			connectWith : ".column",
+			handle : ".portlet-header",
+			cancel : ".portlet-toggle",
+			placeholder : "portlet-placeholder ui-corner-all"
+		});
+
+
+		$(".portlet-toggle").click(function() {
+			var icon = $(this);
+			icon.closest(".portlet").find(".portlet-content").toggle();
+		});
+	});
+</script>
+</head>
+<body>
+<body ng-app='app'>
+
+	<div ng-controller="MyController" ng-init="init()">
+
+		<table>
+			<td ng-repeat="design in designs"><input type="checkbox"
+				ng-click="select(design)">{{design.designName}}</td>
+
+		</table>
+
+		<br />
+		<form name='monitorForm'>
+			<div class='hallasan'>
+				From time : <input ng-model='time.from' required> ~ To time
+				: <input ng-model='time.to' required>
+				<button ng-click='getGraphs()' ng-disabled='!monitorForm.$valid'>submit</button>
+				<input type = "checkbox" ng-model='live' ng-change='setLive()'/>live
+			</div>
+		</form>
+		<br/>
+		<div class="column ui-sortable">
+			<div
+				class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
+				ng-repeat="design in selected" ng-if="$even">
+				<div
+					class="portlet-header ui-sortable-handle ui-widget-header ui-corner-all">
+					<span class="portlet-toggle"></span>
+					{{design.designName}}
+				</div>
+				<div id="{{design.designName}}" class="portlet-content"></div>
+			</div>
+		</div>
+		<div class="column ui-sortable">
+			<div
+				class="portlet ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"
+				ng-repeat="design in selected" ng-if="$odd">
+				<div
+					class="portlet-header ui-sortable-handle ui-widget-header ui-corner-all">
+					<span class="portlet-toggle"></span>
+					{{design.designName}}
+				</div>
+				<div id="{{design.designName}}" class="portlet-content"></div>
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

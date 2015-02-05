@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.beatific.daram.web.vo.dao.DesignVo;
 import org.beatific.daram.web.vo.dao.MonitorGraphVo;
 
 public class DesignConverter {
@@ -32,8 +33,14 @@ public class DesignConverter {
 		return graphs;
 	}
 	
-	public static List<List<?>> convertGoogleLineCharts(List<MonitorGraphVo> monitorGraphVos) {
-		return convertGraph(monitorGraphVos);
+	public static Map convertGoogleLineCharts(DesignVo design, List<MonitorGraphVo> monitorGraphVos) {
+		Map map = new HashMap();
+		map.put("graphs", convertGraph(monitorGraphVos));
+		map.put("xTag", design.getxTag());
+		map.put("yTag", design.getyTag());
+		map.put("denomination", design.getDenomination());
+		map.put("name", design.getDesignName());
+		return map;
 	}
 	
 }
