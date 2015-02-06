@@ -127,7 +127,7 @@ div.hallasan {
 		};
 		
 		$scope.setLive = function() {
-			getGraphForOneHour();
+			if($scope.live)getGraphForOneHour();
 		}
 		
 		getGraphForOneHour = function() {

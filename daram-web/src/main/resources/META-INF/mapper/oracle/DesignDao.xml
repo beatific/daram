@@ -9,8 +9,12 @@
               , A.X_TAG xTag
               , A.Y_TAG yTag
               , A.DENOMINATION denomination
-              , NVL((SELECT 'true' FROM TB_DESIGN_PER_DASH_BOARD B WHERE B.DESIGN_NAME = A.DESIGN_NAME AND B.DASH_BOARD_ID = #{dashBoardId}), 'false') selected
-         FROM TB_DESIGN A
+              , DECODE(B.DESIGN_NAME, NULL, 'false', 'true') selected
+              ,  B.SORT
+         FROM TB_DESIGN A,TB_DESIGN_PER_DASH_BOARD B
+        WHERE B.DESIGN_NAME(+) = A.DESIGN_NAME
+          AND B.DASH_BOARD_ID(+) = 1
+        ORDER BY B.SORT
     </select>
     
     <select id="selectDashBoardPk" resultType="java.lang.Long">
@@ -67,12 +71,14 @@
         (
             DASH_BOARD_ID 
             , DESIGN_NAME 
+            , SORT
             , CREATED_TIME
             , MODIFIED_TIME
         )
         VALUES(
             #{dashBoardId} 
-            , #{designName} 
+            , #{designName}
+            , #{sort}
             , SYSTIMESTAMP
             , SYSTIMESTAMP
         )

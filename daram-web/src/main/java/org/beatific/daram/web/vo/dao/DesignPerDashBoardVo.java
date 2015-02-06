@@ -7,8 +7,15 @@ public class DesignPerDashBoardVo {
 
 	private Long dashBoardId;
 	private String designName;
+	private Integer sort;
 	private List<Map<String, String>> designs;
 	
+	public Integer getSort() {
+		return sort;
+	}
+	public void setSort(Integer sort) {
+		this.sort = sort;
+	}
 	public Long getDashBoardId() {
 		return dashBoardId;
 	}

@@ -40,8 +40,10 @@ public class DesignServiceImpl implements DesignService {
 		dashboardVo.setDashBoardId(new Long(1));
 		dao.deleteDesignPerDashBoard(dashboardVo);
 		
+		int i = 0;
 		for(Map<String, String> design : vo.getDesigns()) {
 			dashboardVo.setDesignName(design.get("designName"));
+			dashboardVo.setSort(i++);
 			dao.insertDesignPerDashBoard(dashboardVo);
 		}
     }
