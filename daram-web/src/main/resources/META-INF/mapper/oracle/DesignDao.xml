@@ -3,19 +3,31 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.beatific.daram.web.dao.DesignDao">
 
-    <select id="listDesign" parameterType="org.beatific.daram.web.vo.dao.DesignVo" resultType="org.beatific.daram.web.vo.dao.DesignVo">
+    <select id="listDesign" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo" resultType="org.beatific.daram.web.vo.dao.DesignVo">
         /* DesignDao.listDesign */
-       SELECT DESIGN_NAME designName
-              , X_TAG xTag
-              , Y_TAG yTag
-              , DENOMINATION denomination
-         FROM TB_DESIGN
+       SELECT A.DESIGN_NAME designName
+              , A.X_TAG xTag
+              , A.Y_TAG yTag
+              , A.DENOMINATION denomination
+              , NVL((SELECT 'true' FROM TB_DESIGN_PER_DASH_BOARD B WHERE B.DESIGN_NAME = A.DESIGN_NAME AND B.DASH_BOARD_ID = #{dashBoardId}), 'false') selected
+         FROM TB_DESIGN A
     </select>
     
     <select id="selectDashBoardPk" resultType="java.lang.Long">
        /* DesignDao.selectDashBoardPk */
        SELECT DASH_BOARD_SEQ.NEXTVAL
          FROM DUAL
+    </select>
+    
+    <select id="listDesignByDashBoard" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo" resultType="org.beatific.daram.web.vo.dao.DesignVo">
+     /* DesignDao.listDesign */
+       SELECT A.DESIGN_NAME designName
+              , A.X_TAG xTag
+              , A.Y_TAG yTag
+              , A.DENOMINATION denomination
+         FROM TB_DESIGN A, TB_DESIGN_PER_DASH_BOARD B
+        WHERE A.DESIGN_NAME = B.DESIGN_NAME
+          AND B.DASH_BOARD_ID = #{dashBoardId}
     </select>
     
     <select id="listDashBoard" parameterType="org.beatific.daram.web.vo.dao.DashBoardVo" resultType="org.beatific.daram.web.vo.dao.DashBoardVo">
@@ -93,8 +105,30 @@
            AND B.MONITOR_ID = C.MONITOR_ID
            AND B.DESIGN_NAME = C.DESIGN_NAME
            AND B.DESIGN_NAME = #{designName}
-           AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24')
+           <choose>
+	           <when test="fromTime == null or  fromTime  == '' or toTime == null or toTime == ''">
+	       AND A.MONITOR_TIME BETWEEN SYSTIMESTAMP - 1 AND SYSTIMESTAMP
+	           </when>
+	           <otherwise>
+	       AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24')
+	           </otherwise>
+           </choose>
          ORDER BY monitorId
+    </select>
+    
+    <select id="selectMonitorGraphByDesign" parameterType="org.beatific.daram.web.vo.dao.MonitorGraphVo" resultType="org.beatific.daram.web.vo.dao.MonitorGraphVo">
+        SELECT A.MONITOR_ID monitorId
+               , A.MONITOR_TIME monitorTime
+               , B.DESIGN_NAME designName
+               , C.GRAPH_NAME graphName
+               , C.Y_VALUE yValue
+          FROM TB_MONITOR A, TB_MONITOR_DESIGN B, TB_MONITOR_GRAPH C
+         WHERE A.MONITOR_ID = B.MONITOR_ID
+           AND B.MONITOR_ID = C.MONITOR_ID
+           AND B.DESIGN_NAME = C.DESIGN_NAME
+           AND B.DESIGN_NAME = #{designName}
+           AND ROWNUM = 1
+         ORDER BY monitorId DESC
     </select>
     
 </mapper>

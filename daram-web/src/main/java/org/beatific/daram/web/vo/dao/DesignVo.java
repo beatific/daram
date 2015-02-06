@@ -6,7 +6,22 @@ public class DesignVo {
 	private String xTag;
 	private String yTag;
 	private String denomination;
+	private String selected;
+	private boolean isSelected;
 	
+	public String getSelected() {
+		return selected;
+	}
+	public void setSelected(String selected) {
+		this.selected = selected;
+		this.isSelected = "true".equals(selected)? true : false;
+	}
+	public Boolean getIsSelected() {
+		return isSelected;
+	}
+	public void setIsSelected(Boolean isSelected) {
+		this.isSelected = isSelected;
+	}
 	public String getDesignName() {
 		return designName;
 	}
@@ -31,6 +46,8 @@ public class DesignVo {
 	public void setDenomination(String denomination) {
 		this.denomination = denomination;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "DesignVo [designName=" + designName + ", xTag=" + xTag

@@ -22,6 +22,9 @@ div.hallasan {
 </style>
 <script>
 	var app = angular.module("app", []);
+	
+	var socket = new SockJS('/daram-web/websocket');
+	var client = Stomp.over(socket);
 
 	var memory = [];
 	app.controller("MyController", function($scope, $http) {
@@ -29,6 +32,7 @@ div.hallasan {
 		$scope.time = {};
 		$scope.designs = [];
 		$scope.selected = [];
+		$scope.data ={};
 
 		$scope.getGraphs = function() {
 			$http({
@@ -44,6 +48,7 @@ div.hallasan {
 				}
 			}).success(
 					function(data) {
+						$scope.data = jQuery.extend(true, {}, data);
 
 						for (index in data.monitor) {
 							drawChart(data.monitor[index].graphs,
@@ -57,6 +62,41 @@ div.hallasan {
 		}
 
 		$scope.init = function() {
+			
+			client.connect('user', 'password', function(frame) {
+
+				  client.subscribe("/data", function(message) {
+
+					  if(!$scope.live)return;
+					  
+					  var list = JSON.parse(message.body);
+					  
+					  var data = jQuery.extend(true, {}, $scope.data);
+					  for (index in data.monitor) {
+						  
+						  data.monitor[index].graphs.shift();
+						  
+						  for(i in list)
+							  if(list[i].name == data.monitor[index].name) {
+								  console.log("name:" + list[i].name);
+								  data.monitor[index].graphs.push(list[i].graph);
+								  console.log("graph:" + list[i].graph);
+								  break;
+							  }
+						  
+						  $scope.data = jQuery.extend(true, {}, data);
+						  
+						  drawChart(data.monitor[index].graphs,
+								  data.monitor[index].name,
+								  data.monitor[index].xTag,
+								  data.monitor[index].yTag,
+								  data.monitor[index].denomination);
+					  }
+						
+				  });
+
+				});
+			
 			$http({
 				method : 'POST',
 				url : 'http://localhost:8081/daram-web/monitor/design',
@@ -66,33 +106,36 @@ div.hallasan {
 				data : {}
 			}).success(function(data) {
 				$scope.designs = data.designs;
-
+				for(i in data.designs)
+					if(data.designs[i].isSelected)
+						$scope.select(data.designs[i], false);
+				
 			});
 		};
 
-		$scope.select = function(design) {
+		$scope.select = function(design, isRegister) {
 			if ($scope.selected.indexOf(design) < 0)
 				$scope.selected.push(design);
 			else
 				$scope.selected.splice($scope.selected.indexOf(design), 1);
-			$scope.getGraphs();
+			
+		    console.log($scope.selected);
+		    if(isRegister)client.send("/app/dashboard", {}, JSON.stringify($scope.selected));
+			
+		    if($scope.live)getGraphForOneHour();
+		    else $scope.getGraphs();
 		};
 		
 		$scope.setLive = function() {
-			var socket = new SockJS('/daram-web/websocket');
-			var client = Stomp.over(socket);
-			if($scope.live) {
-				$http({
-					method : 'POST',
-					url : 'http://localhost:8081/daram-web/websocket',
-					headers : {
-						'Content-Type' : 'application/json; charset=UTF-8'
-					},
-					data : {}
-				});
-			}
+			getGraphForOneHour();
 		}
-
+		
+		getGraphForOneHour = function() {
+			$scope.time.from = '';
+			$scope.time.to = ''; 
+			$scope.getGraphs();
+		}
+		
 	});
 </script>
 <style>
@@ -161,18 +204,17 @@ body {
 	<div ng-controller="MyController" ng-init="init()">
 
 		<table>
-			<td ng-repeat="design in designs"><input type="checkbox"
-				ng-click="select(design)">{{design.designName}}</td>
+			<td ng-repeat="design in designs"><input type="checkbox" ng-checked="design.isSelected" ng-click="select(design, true)">{{design.designName}}</td>
 
 		</table>
 
 		<br />
 		<form name='monitorForm'>
 			<div class='hallasan'>
-				From time : <input ng-model='time.from' required> ~ To time
-				: <input ng-model='time.to' required>
-				<button ng-click='getGraphs()' ng-disabled='!monitorForm.$valid'>submit</button>
-				<input type="checkbox" ng-model='live' ng-change='setLive()' />live
+				From time : <input ng-model='time.from' ng-disabled='live' required> ~ To time
+				: <input ng-model='time.to' ng-disabled='live' required>
+				<button ng-click='getGraphs()' ng-disabled='!monitorForm.$valid || live'>submit</button>
+				<input type="checkbox" ng-model='live' ng-change='setLive()'/>live
 			</div>
 		</form>
 		<br />

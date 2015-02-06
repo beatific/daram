@@ -18,24 +18,6 @@
 			<attribute var="cpu" name="SystemCpuLoad"/>
 		</mbean>
 	</connection>
-	<connection id="server" basePackage="org.beatific"  
-		url="service:jmx:rmi://localhost/jndi/rmi://localhost:9840/jmxrmi">
-		<mbean objectName="java.lang:type=Threading">
-			<attribute var="threadCount" name="ThreadCount"/>
-			<attribute var="peakCount" name="PeakThreadCount"/>
-			<attribute var="totalCount" name="TotalStartedThreadCount"/>
-		</mbean>
-		<mbean objectName="java.lang:type=ClassLoading">
-			<attribute var="classCount" name="LoadedClassCount"/>
-		</mbean>
-		<mbean objectName="java.lang:type=Memory">
-			<attribute var="memory" name="HeapMemoryUsage"/>
-		</mbean>
-		<mbean objectName="java.lang:type=OperatingSystem">
-			<attribute var="cpu1" name="SystemCpuLoad"/>
-		</mbean>
-	</connection>
-	
 	
 	<design id="memory" name="Memory" x-tag="time" y-tag="memory">
 		<caption format="init : $S{memory.get(init)}, max : $S{memory.get(max)}, used : $S{memory.get(used)}, committed : $S{memory.get(committed)}" />
@@ -52,6 +34,5 @@
 	<design id="cpu" name="CPU" x-tag="time" y-tag="cpu">
 		<caption format="use rate : $S{cpu}%" />
 		<graph y-value="$S{cpu}" name="cpu" />
-		<graph y-value="$S{cpu1}" name="cpu" />
 	</design>
 </daram:daram>

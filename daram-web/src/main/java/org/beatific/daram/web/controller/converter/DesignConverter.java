@@ -21,18 +21,32 @@ public class DesignConverter {
 //	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
+	private static List<?> convertGraph(MonitorGraphVo monitorGraphVo) {
+		List graph = new ArrayList();
+		graph.add(monitorGraphVo.getxValue());
+		graph.add(monitorGraphVo.getyValue());
+		return graph;
+	}
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public static Map convertGoogleLineChart(MonitorGraphVo monitorGraphVo) {
+		Map map = new HashMap();
+		map.put("graph", convertGraph(monitorGraphVo));
+		map.put("name", monitorGraphVo.getDesignName());
+		return map;
+		
+	}
+	
 	private static List<List<?>> convertGraph(List<MonitorGraphVo> monitorGraphVos) {
 		
 		List<List<?>> graphs = new ArrayList<List<?>>();
 		for(MonitorGraphVo monitorGraphVo : monitorGraphVos) {
-			List graph = new ArrayList();
-			graph.add(monitorGraphVo.getxValue());
-			graph.add(monitorGraphVo.getyValue());
-			graphs.add(graph);
+			graphs.add(convertGraph(monitorGraphVo));
 		}
 		return graphs;
 	}
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map convertGoogleLineCharts(DesignVo design, List<MonitorGraphVo> monitorGraphVos) {
 		Map map = new HashMap();
 		map.put("graphs", convertGraph(monitorGraphVos));

@@ -15,8 +15,8 @@
         var table = new google.visualization.DataTable();
         
         for(var index in data) 
-      	for (var i in data[index])
-      		if(i == 0)data[index][i] = new Date(data[index][i]);
+      	    for (var i in data[index])
+      		    if(i == 0 && !(data[index][i] instanceof Date))data[index][i] = new Date(data[index][i]);
         
         table.addColumn('date', 'time');
         table.addColumn('number', yCaption);
