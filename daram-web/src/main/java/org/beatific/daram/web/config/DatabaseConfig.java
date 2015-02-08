@@ -13,7 +13,7 @@ public class DatabaseConfig {
     	BasicDataSource datasource = new BasicDataSource();
     	datasource.setDriverClassName("oracle.jdbc.OracleDriver");
     	datasource.setUrl("jdbc:oracle:thin:@localhost:1521:orcl");
-    	datasource.setUsername("c##daram");
+    	datasource.setUsername("daram");
     	datasource.setPassword("daram");
     	datasource.setInitialSize(2);
     	datasource.setMaxActive(5);
