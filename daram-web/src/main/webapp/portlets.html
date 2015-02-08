@@ -74,13 +74,13 @@ div.hallasan {
 					  var data = jQuery.extend(true, {}, $scope.data);
 					  for (index in data.monitor) {
 						  
-						  data.monitor[index].graphs.shift();
+						  if(data.monitor[index].graphs.length >= 60)
+						      data.monitor[index].graphs.shift();
 						  
 						  for(i in list)
 							  if(list[i].name == data.monitor[index].name) {
-								  console.log("name:" + list[i].name);
+								  
 								  data.monitor[index].graphs.push(list[i].graph);
-								  console.log("graph:" + list[i].graph);
 								  break;
 							  }
 						  

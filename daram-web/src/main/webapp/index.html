@@ -1,15 +1,34 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>WebSocket chart example</title>
-  </head>
-  <body>
-    <div id="randomDataChart"></div>
-  </body>
-  <script type="text/javascript" src="resources/jquery.js" /></script>
-  <script type="text/javascript" src="resources/sockjs.js" /></script>
-  <script src="http://code.highcharts.com/highcharts.js"></script>
-  <script type="text/javascript" src="resources/stomp.js" /></script>
-  <script type="text/javascript" src="resources/application.js" /></script>
+<!doctype html>
+<html lang="en" ng-controller="CommonController">
+<head>
+<meta charset="utf-8">
+<title>My AngularJS App</title>
+<link href="css/bootstrap.css" type="text/css" rel="stylesheet" />
+<link href="css/app.css" type="text/css" rel="stylesheet" />
+
+<!--[if lt IE 9]>
+		  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+<link ng-repeat="stylesheet in stylesheets" ng-href="{{stylesheet}}"
+	type="text/css" rel="stylesheet" />
+</head>
+<body>
+	<!-- <table>
+		<td ng-repeat="design in designs"><input type="checkbox"
+			ng-checked="design.isSelected" ng-click="select(design, true)">{{design.designName}}</td>
+	</table> -->
+	<div>
+		<a href="#/view1" class="btn">view1</a> <a href="#/view2" class="btn">view2</a>
+		<a href="#/grid" class="btn">grid</a> <a href="#/admin" class="btn" ng-show="isAdmin">admin</a>
+	</div>
+
+	<hr>
+
+	<div ng-view class="well well-small"></div>
+
+	<button ng-hide="isAdmin" ng-click="isAdmin=true;">Become admin</button>
+
+	<script data-main="config/main" src="lib/require/require.js"></script>
+</body>
 </html>

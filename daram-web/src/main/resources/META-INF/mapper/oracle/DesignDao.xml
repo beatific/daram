@@ -123,18 +123,25 @@
     </select>
     
     <select id="selectMonitorGraphByDesign" parameterType="org.beatific.daram.web.vo.dao.MonitorGraphVo" resultType="org.beatific.daram.web.vo.dao.MonitorGraphVo">
-        SELECT A.MONITOR_ID monitorId
-               , A.MONITOR_TIME monitorTime
-               , B.DESIGN_NAME designName
-               , C.GRAPH_NAME graphName
-               , C.Y_VALUE yValue
+        SELECT MONITOR_ID monitorId
+               , MONITOR_TIME monitorTime
+               , DESIGN_NAME designName
+               , GRAPH_NAME graphName
+               , Y_VALUE yValue
+          FROM ( 
+        SELECT A.MONITOR_ID 
+               , A.MONITOR_TIME 
+               , B.DESIGN_NAME 
+               , C.GRAPH_NAME 
+               , C.Y_VALUE 
           FROM TB_MONITOR A, TB_MONITOR_DESIGN B, TB_MONITOR_GRAPH C
          WHERE A.MONITOR_ID = B.MONITOR_ID
            AND B.MONITOR_ID = C.MONITOR_ID
            AND B.DESIGN_NAME = C.DESIGN_NAME
            AND B.DESIGN_NAME = #{designName}
-           AND ROWNUM = 1
-         ORDER BY monitorId DESC
+         ORDER BY A.MONITOR_ID DESC )
+          WHERE ROWNUM = 1
+         
     </select>
     
 </mapper>
