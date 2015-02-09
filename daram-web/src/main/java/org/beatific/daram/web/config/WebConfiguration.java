@@ -27,7 +27,7 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     @Bean  
     public UrlBasedViewResolver setupViewResolver() {  
         UrlBasedViewResolver resolver = new UrlBasedViewResolver();  
-        resolver.setPrefix("/jsp/");  
+        resolver.setPrefix("/views/");  
         resolver.setSuffix(".jsp");  
         resolver.setViewClass(JstlView.class);  
         return resolver;  
@@ -35,10 +35,10 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
     
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/js/**").addResourceLocations("/app/");
-		registry.addResourceHandler("/lib/**").addResourceLocations("/angularjs/vendor/");
-		registry.addResourceHandler("/views/**").addResourceLocations("/angularjs/views/");
-		registry.addResourceHandler("/css/**").addResourceLocations("/angularjs/styles/");
+		registry.addResourceHandler("/js/**").addResourceLocations("/app/scripts/");
+		registry.addResourceHandler("/lib/**").addResourceLocations("/app/vendor/");
+		registry.addResourceHandler("/views/**").addResourceLocations("/app/views/");
+		registry.addResourceHandler("/css/**").addResourceLocations("/app/styles/");
 	}
 	
 	@Bean
