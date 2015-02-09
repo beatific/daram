@@ -1,4 +1,6 @@
+//requireJS 모듈 선언
 define([
+		//디펜던시가 걸려있으므로, 아래의 디펜던시가 먼저 로드된 뒤에 아래 콜백이 수행된다.
 		'registers/lazy-directives',
 		'registers/lazy-services', 
 		'registers/lazy-filters'
