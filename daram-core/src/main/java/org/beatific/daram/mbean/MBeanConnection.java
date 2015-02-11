@@ -16,18 +16,22 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
-import org.beatific.daram.constructor.GetConnectionException;
-
 public class MBeanConnection {
 	
 	private String url;
 	private String username;
 	private String password;
 	private String ssl;
+	private String id;
 	
 	private MBeanServerConnection connection;
 	private List<MBean> mbeans;
 	private JMXConnector jmxConnector;
+	private VmidHolder holder;
+	
+	public MBeanConnection(VmidHolder holder) {
+	    	this.holder = holder;
+	}
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -87,9 +91,23 @@ public class MBeanConnection {
 			return jmxConnector.getMBeanServerConnection();
 
 		} catch (Exception e) {
-//			e.printStackTrace();
 			return null;
-		} 
+		} finally {
+			
+			System.out.println("jmxConnector" + jmxConnector);
+			if(jmxConnector != null) {
+				
+				try {
+					Object id = this.getAttribute(new ObjectName("java.lang:type=Runtime"), "Name");
+					
+					System.out.println("id[" + id + "]");
+					
+					if(id instanceof String)this.holder.hold(this.id, ((String) id).substring(0, ((String) id).indexOf("@")));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 	}
 	
@@ -109,4 +127,14 @@ public class MBeanConnection {
 		}
 		return beans;
 	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	
 }

@@ -48,7 +48,6 @@ public class Design {
 	
 	public Long loadDesign(Long monitorId) {
 		
-//		graphs.clear();
 		caption = null;
 		
 		this.monitorId = monitorId;

@@ -12,5 +12,11 @@ public class MbeanScheduler {
 		
 		MBeanManager.reload();
 	}
+	
+	@Scheduled(fixedDelay = 60000)
+	public void recordJstat() {
+		
+		MBeanManager.extractJstat();
+	}
 
 }

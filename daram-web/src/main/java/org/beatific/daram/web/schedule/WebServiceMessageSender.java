@@ -1,7 +1,6 @@
 package org.beatific.daram.web.schedule;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +19,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RandomDataGenerator implements
+public class WebServiceMessageSender implements
     ApplicationListener<BrokerAvailabilityEvent> {
 
     private final MessageSendingOperations<String> messagingTemplate;
@@ -29,7 +28,7 @@ public class RandomDataGenerator implements
     private DesignService service;
     
     @Autowired
-    public RandomDataGenerator(
+    public WebServiceMessageSender(
         final MessageSendingOperations<String> messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
@@ -56,4 +55,5 @@ public class RandomDataGenerator implements
             "/data", list);
 
     }
+    
 }
