@@ -10,17 +10,13 @@ public class ExecuteShellCommandTest {
 		
 		ExecuteShellCommand execute = new ExecuteShellCommand();
 		String[] vmids = execute.executeCommand("jps");
-		System.out.println(vmids[0]);
 		String vmid = null;
 		
 		if("Jps".equals(vmids[0].split(" ")[1]))vmid = vmids[0].split(" ")[1];
 		else vmid = vmids[0].split(" ")[0];
-		System.out.println(vmid);
 		String[] result = execute.executeCommand("jstat -gcutil " + vmid);
 		
 		assertTrue(result[0].equals("  S0     S1     E      O      P     YGC     YGCT    FGC    FGCT     GCT   "));
-		System.out.println(result[0]);
-		System.out.println(result[1]);
 		
 	}
 	

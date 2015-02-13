@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
@@ -15,6 +16,8 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
+
+import org.beatific.daram.jstat.Jstat;
 
 public class MBeanConnection {
 	
@@ -28,10 +31,6 @@ public class MBeanConnection {
 	private List<MBean> mbeans;
 	private JMXConnector jmxConnector;
 	private VmidHolder holder;
-	
-	public MBeanConnection(VmidHolder holder) {
-	    	this.holder = holder;
-	}
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -92,21 +91,6 @@ public class MBeanConnection {
 
 		} catch (Exception e) {
 			return null;
-		} finally {
-			
-			System.out.println("jmxConnector" + jmxConnector);
-			if(jmxConnector != null) {
-				
-				try {
-					Object id = this.getAttribute(new ObjectName("java.lang:type=Runtime"), "Name");
-					
-					System.out.println("id[" + id + "]");
-					
-					if(id instanceof String)this.holder.hold(this.id, ((String) id).substring(0, ((String) id).indexOf("@")));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
 		}
 		
 	}
@@ -118,14 +102,33 @@ public class MBeanConnection {
 
 	}
 	
+	private void initHolder() {
+		
+		holder = new VmidHolder();
+		try {
+			Object id = this.getAttribute(new ObjectName("java.lang:type=Runtime"), "Name");
+			
+			if(id instanceof String)this.holder.hold(((String) id).substring(0, ((String) id).indexOf("@")));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	public Map<String, Object> reload() {
 		
+		if(holder == null) initHolder();
 		Map<String, Object> beans = new HashMap<String, Object>();
 		if(getConnection() == null) return null;
 		for(MBean mbean : mbeans)  {
 			beans.putAll(mbean.loadMBean(this));
 		}
 		return beans;
+	}
+	
+	public void collectJstatInfo() {
+		Jstat jstat = new Jstat();
+		if(holder == null)return;
+		jstat.execute(id, holder.vmid());
 	}
 
 	public String getId() {
@@ -136,5 +139,16 @@ public class MBeanConnection {
 		this.id = id;
 	}
 
-	
+	public class VmidHolder {
+
+		private String vmid;
+		
+		public void hold(String vmid) {
+			this.vmid = vmid;
+		}
+		
+		public String vmid() {
+			return vmid;
+		}
+	}
 }

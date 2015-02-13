@@ -1,16 +1,11 @@
 package org.beatific.daram.mbean;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.management.ObjectName;
-
 import org.beatific.daram.design.DesignHolder;
-import org.beatific.daram.jstat.Jstat;
 import org.beatific.ddirori.attribute.AttributeExtractor;
 import org.beatific.ddirori.bean.BeanContainer;
 
@@ -19,8 +14,6 @@ public class MBeanManager {
 	private static MBeanContainer container = new MBeanContainer();
 	private static AttributeExtractor extractor;
 	private static List<MBeanConnection> connections = new ArrayList<MBeanConnection>();
-	private static VmidHolder holder;
-
 	public static void setBasePacket(String basePackage) {
 	
 		String[] packages = basePackage==null ? new String[]{"org.beatific.daram"} : basePackage.split(",");
@@ -52,17 +45,13 @@ public class MBeanManager {
 		return extractor.extract(container, str);
 	}
 
-	public static void addConnection(MBeanConnection connection, VmidHolder vmidHolder) {
-		holder = vmidHolder;
+	public static void addConnection(MBeanConnection connection) {
 		connections.add(connection);
 	}
 	
 	public static void extractJstat() {
-		Jstat jstat = new Jstat();
-		if(holder == null)return;
-		for(Entry<String, String> entry: holder) {
-		    jstat.execute(entry.getKey(), entry.getValue());
-		}
+		for(MBeanConnection connection : connections)
+			connection.collectJstatInfo();
 	}
 	
 	

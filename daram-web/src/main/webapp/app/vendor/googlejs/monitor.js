@@ -6,8 +6,12 @@
 
     }
     
-    function drawThumb(data, division, xCaption, yCaption, denomination, width, height) {
-    	draw(data, division, xCaption, yCaption, denomination, 200, 88);
+    function drawSmallChart(data, division, xCaption, yCaption, denomination, width, height) {
+    	draw(data, division, xCaption, yCaption, denomination, 500, 350);
+    }
+    
+    function drawHalfSmallChart(data, division, xCaption, yCaption, denomination, width, height) {
+    	draw(data, division, xCaption, yCaption, denomination, 500, 175);
     }
     
     function draw(data, division, xCaption, yCaption, denomination, width, height) {

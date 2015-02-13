@@ -7,7 +7,6 @@ import java.util.Map;
 import org.beatific.daram.mbean.MBean;
 import org.beatific.daram.mbean.MBeanConnection;
 import org.beatific.daram.mbean.MBeanManager;
-import org.beatific.daram.mbean.VmidHolder;
 import org.beatific.ddirori.bean.BeanDefinition;
 import org.beatific.ddirori.bean.Constructor;
 import org.beatific.ddirori.bean.annotation.Action;
@@ -28,8 +27,7 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 		String password = (String)definition.attributes().get("password");
 		String ssl = definition.attributes().get("ssl") == null ? Boolean.FALSE.toString() : (String)definition.attributes().get("ssl");
 		
-		VmidHolder holder = new VmidHolder();
-		MBeanConnection connection = new MBeanConnection(holder);
+		MBeanConnection connection = new MBeanConnection();
 		connection.setUrl(url);
 		connection.setUsername(username);
 		connection.setPassword(password);
@@ -44,7 +42,7 @@ public class MBeanManagerConstructor implements Constructor<MBeanManager>{
 		}
 		
 		connection.setMbeans(mbeans);
-		MBeanManager.addConnection(connection, holder);
+		MBeanManager.addConnection(connection);
 		
 		return null;
 	}

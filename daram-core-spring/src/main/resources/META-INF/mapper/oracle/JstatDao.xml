@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.beatific.daram.core.spring.dao.JstatDao">
+
+    <insert id="insertJstat" parameterType="org.beatific.daram.core.spring.dao.vo.JstatVo">
+        /* JstatDao.insertJstat */
+        INSERT INTO TB_JSTAT
+        (
+            SERVER
+            , JSTAT_ID
+            , JSTAT_TIME
+            , S0 
+            , S1
+            , E
+            , O
+            , P
+            , YGC
+            , YGCT
+            , FGC
+            , FGCT
+            , GCT
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{server}
+            , (SELECT DECODE(MAX(JSTAT_ID), NULL, 0, MAX(JSTAT_ID)) + 1 FROM TB_JSTAT WHERE SERVER = #{server})
+            , SYSTIMESTAMP 
+            , #{s0}
+            , #{s1}
+            , #{e}
+            , #{o}
+            , #{p}
+            , #{ygc}
+            , #{ygct}
+            , #{fgc}
+            , #{fgct}
+            , #{gct}
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+</mapper>
