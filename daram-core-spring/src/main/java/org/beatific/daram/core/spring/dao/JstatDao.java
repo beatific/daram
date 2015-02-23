@@ -6,4 +6,6 @@ import org.beatific.daram.core.spring.dao.vo.JstatVo;
 public interface JstatDao {
 
 	public void insertJstat(JstatVo vo);
+	public void insertServer(JstatVo vo);
+	public String selectServer(JstatVo vo);
 }

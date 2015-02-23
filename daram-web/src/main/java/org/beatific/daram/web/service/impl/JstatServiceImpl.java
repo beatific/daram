@@ -7,7 +7,7 @@ import javax.annotation.Resource;
 
 import org.beatific.daram.web.dao.JstatDao;
 import org.beatific.daram.web.service.JstatService;
-import org.beatific.daram.web.vo.dao.MonitorGraphVo;
+import org.beatific.daram.web.vo.dao.JstatVo;
 import org.springframework.stereotype.Service;
 
 @Service(value="jstatService")
@@ -17,8 +17,22 @@ public class JstatServiceImpl implements JstatService {
 	private JstatDao dao;
 	
 	@Override
-	public List<Map> listJstatGraphByServer(MonitorGraphVo vo) {
+	public List<Map> listJstatGraphByServer(JstatVo vo) {
 		return dao.listJstatGraphByServer(vo);
+	}
+
+	@Override
+	public Map selectJstatGraph(JstatVo vo) {
+		return dao.selectJstatGraphByServer(vo);
+	}
+	
+	public List<Map> listServer(JstatVo vo) {
+		return dao.listServer(vo);
+	}
+
+	@Override
+	public void updateServer(JstatVo vo) {
+		dao.updateServer(vo);
 	}
 
 }

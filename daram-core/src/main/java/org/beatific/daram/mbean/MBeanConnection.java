@@ -110,7 +110,6 @@ public class MBeanConnection {
 			
 			if(id instanceof String)this.holder.hold(((String) id).substring(0, ((String) id).indexOf("@")));
 		} catch (Exception e) {
-			e.printStackTrace();
 		}
 		
 	}

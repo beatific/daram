@@ -6,11 +6,11 @@
 
     }
     
-    function drawSmallChart(data, division, xCaption, yCaption, denomination, width, height) {
-    	draw(data, division, xCaption, yCaption, denomination, 500, 350);
+    function drawSmallChart(data, division, xCaption, yCaption, denomination) {
+    	draw(data, division, xCaption, yCaption, denomination, 500, 435);
     }
     
-    function drawHalfSmallChart(data, division, xCaption, yCaption, denomination, width, height) {
+    function drawHalfSmallChart(data, division, xCaption, yCaption, denomination) {
     	draw(data, division, xCaption, yCaption, denomination, 500, 175);
     }
     
@@ -23,7 +23,13 @@
       		    if(i == 0 && !(data[index][i] instanceof Date))data[index][i] = new Date(data[index][i]);
         
         table.addColumn('date', 'time');
-        table.addColumn('number', yCaption);
+        
+        if(Array.isArray(yCaption)) {
+	        for(var index in yCaption)
+	        	table.addColumn('number', yCaption[index]);
+        } else {
+            table.addColumn('number', yCaption);
+        }
 
         table.addRows(data);
 
@@ -47,4 +53,5 @@
         chart.draw(table, options);
 
       }
+    
       

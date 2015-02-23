@@ -172,6 +172,14 @@
 			<version>1.2</version>
 		</dependency>
 
+		<dependency>
+			<artifactId>com.oracle</artifactId>
+			<groupId>ojdbc6</groupId>
+			<version>6</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/src/main/webapp/WEB-INF/lib/ojdbc6.jar</systemPath>
+		</dependency>
+
 
 	</dependencies>
 

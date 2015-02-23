@@ -17,10 +17,14 @@ public class Jstat {
 		String[] results = executor.executeCommand(command.toString());
 		
 		ResultParser parser = new ResultParser();
-		JstatResult result = parser.parse(results[1]);
-		
-		result.setServer(server);
-		store.save(result);
+		try {
+			JstatResult result = parser.parse(results[1]);
+			
+			result.setServer(server);
+			store.save(result);
+		} catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	
 }

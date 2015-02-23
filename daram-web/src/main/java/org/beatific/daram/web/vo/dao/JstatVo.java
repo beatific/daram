@@ -17,6 +17,21 @@ public class JstatVo {
 	private Double gct;
 	private Date jstatTime;
 	private String jstatId;
+	private String fromTime; 
+	private String toTime;
+	
+	public String getFromTime() {
+		return fromTime;
+	}
+	public void setFromTime(String fromTime) {
+		this.fromTime = fromTime;
+	}
+	public String getToTime() {
+		return toTime;
+	}
+	public void setToTime(String toTime) {
+		this.toTime = toTime;
+	}
 	public String getServer() {
 		return server;
 	}

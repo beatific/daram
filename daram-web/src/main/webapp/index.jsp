@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <title>Monitor JVM</title>
 <link rel="stylesheet" href="css/jquery-ui.min.css">
-<link rel="stylesheet" href="stylesheets/daram.css" />
-<link rel="stylesheet" type="text/css" href="stylesheets/hangul.css">
+<link rel="stylesheet" href="css/daram.css" />
+<link rel="stylesheet" href="css/hangul.css">
 
 <script src="lib/jquery/jquery.js"></script>
 <script src="lib/jquery/jquery-ui.js"></script>

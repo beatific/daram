@@ -42,4 +42,28 @@
         )
     </insert>
     
+    <insert id="insertServer" parameterType="org.beatific.daram.core.spring.dao.vo.JstatVo">
+        /* JstatDao.insertServer */
+        INSERT INTO TB_SERVER
+        (
+            SERVER
+            , SELECT_YN
+            , CREATED_TIME
+            , MODIFIED_TIME
+        )
+        VALUES(
+            #{server}
+            , 'N'
+            , SYSTIMESTAMP
+            , SYSTIMESTAMP
+        )
+    </insert>
+    
+    <select id="selectServer" parameterType="org.beatific.daram.core.spring.dao.vo.JstatVo" resultType="java.lang.String">
+        /* JstatDao.selectServer */
+        SELECT SERVER
+          FROM TB_SERVER
+         WHERE SERVER = #{server}
+    </select>
+    
 </mapper>

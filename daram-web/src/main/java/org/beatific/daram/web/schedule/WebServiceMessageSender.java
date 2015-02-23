@@ -7,9 +7,12 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.beatific.daram.web.controller.converter.DesignConverter;
+import org.beatific.daram.web.controller.converter.JstatConverter;
 import org.beatific.daram.web.service.DesignService;
+import org.beatific.daram.web.service.JstatService;
 import org.beatific.daram.web.vo.dao.DashBoardVo;
 import org.beatific.daram.web.vo.dao.DesignVo;
+import org.beatific.daram.web.vo.dao.JstatVo;
 import org.beatific.daram.web.vo.dao.MonitorGraphVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -26,6 +29,9 @@ public class WebServiceMessageSender implements
 
     @Resource(name="designService")
     private DesignService service;
+    
+    @Resource(name="jstatService")
+    private JstatService jstatService;
     
     @Autowired
     public WebServiceMessageSender(
@@ -51,8 +57,18 @@ public class WebServiceMessageSender implements
 	    	list.add(DesignConverter.convertGoogleLineChart(service.selectMonitorGraphByDesign(vo)));
     	}
     	
-        this.messagingTemplate.convertAndSend(
-            "/data", list);
+        this.messagingTemplate.convertAndSend("/data", list);
+
+    }
+    
+    @SuppressWarnings("rawtypes")
+	@Scheduled(fixedDelay = 60000)
+    public void sendGcUpdates() {
+    	
+    	JstatVo vo = new JstatVo();    	
+    	List<Map> list = JstatConverter.convertGoogleLineCharts(jstatService.selectJstatGraph(vo));
+    	
+        this.messagingTemplate.convertAndSend("/gc", list);
 
     }
     

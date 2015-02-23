@@ -57,6 +57,9 @@ public class JstatResultRepository extends OneStateRepository<JstatResult> {
 		vo.setS1(Double.parseDouble(jstat.getS1()));
 		vo.setYgc(Double.parseDouble(jstat.getYgc()));
 		vo.setYgct(Double.parseDouble(jstat.getYgct()));
+		
+		if(getDao().selectServer(vo) == null)getDao().insertServer(vo);
+		
 		getDao().insertJstat(vo);
 	}
 
