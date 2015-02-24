@@ -113,7 +113,7 @@
            AND B.DESIGN_NAME = #{designName}
            <choose>
 	           <when test="fromTime == null or  fromTime  == '' or toTime == null or toTime == ''">
-	       AND A.MONITOR_TIME BETWEEN SYSTIMESTAMP - 1 AND SYSTIMESTAMP
+	       AND A.MONITOR_TIME BETWEEN SYSTIMESTAMP - INTERVAL '1' hour AND SYSTIMESTAMP
 	           </when>
 	           <otherwise>
 	       AND A.MONITOR_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24')

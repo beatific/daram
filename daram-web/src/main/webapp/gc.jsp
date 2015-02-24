@@ -11,7 +11,7 @@
 	<div ng-controller="JstatController" ng-init="init()">
 
         <table>
-			<td ng-repeat="server in servers"><input type="radio" ng-model="selectedServer" ng-value="server" ng-change="select(server)">{{server.server}}</td>
+			<td ng-repeat="server in servers"><input type="radio" ng-model="selectedServer" ng-value="server" ng-click="select(server)">{{server.server}}</td>
 		</table>
 		
 		<br>

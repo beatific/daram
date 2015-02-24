@@ -19,6 +19,24 @@
 		</mbean>
 	</connection>
 	
+	<connection id="server2" basePackage="org.beatific"  
+		url="service:jmx:rmi://localhost/jndi/rmi://localhost:9844/jmxrmi">
+		<mbean objectName="java.lang:type=Threading">
+			<attribute var="threadCount2" name="ThreadCount"/>
+			<attribute var="peakCount2" name="PeakThreadCount"/>
+			<attribute var="totalCount2" name="TotalStartedThreadCount"/>
+		</mbean>
+		<mbean objectName="java.lang:type=ClassLoading">
+			<attribute var="classCount2" name="LoadedClassCount"/>
+		</mbean>
+		<mbean objectName="java.lang:type=Memory">
+			<attribute var="memory2" name="HeapMemoryUsage"/>
+		</mbean>
+		<mbean objectName="java.lang:type=OperatingSystem">
+			<attribute var="cpu2" name="SystemCpuLoad"/>
+		</mbean>
+	</connection>
+	
 	<design id="memory" name="Memory" x-tag="time" y-tag="memory">
 		<caption format="init : $S{memory.get(init)}, max : $S{memory.get(max)}, used : $S{memory.get(used)}, committed : $S{memory.get(committed)}" />
 		<graph y-value="$S{memory.get(used)}" name="used" />

@@ -29,10 +29,22 @@
                     , O 
                     , P 
                     , JSTAT_TIME 
-                    , YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID) YGC
-                    , DECODE(YGC, LAG(YGC) OVER(ORDER BY JSTAT_ID), 0,  (YGCT - LAG(YGCT) OVER(ORDER BY JSTAT_ID)) / (YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID))) YGCT
-                    , FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID) FGC
-                    , DECODE(FGC, LAG(FGC) OVER(ORDER BY JSTAT_ID), 0,  (FGCT - LAG(FGCT) OVER(ORDER BY JSTAT_ID)) / (FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID))) FGCT
+                    , CASE WHEN YGC <![CDATA[<=]]> LAG(YGC) OVER(ORDER BY JSTAT_ID) 
+                           THEN 0
+                           ELSE YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID)
+                           END YGC
+                    , CASE WHEN YGC <![CDATA[<=]]> LAG(YGC) OVER(ORDER BY JSTAT_ID) OR YGCT <![CDATA[<=]]> LAG(YGCT) OVER(ORDER BY JSTAT_ID)
+                           THEN 0
+                           ELSE (YGCT - LAG(YGCT) OVER(ORDER BY JSTAT_ID)) / (YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID))
+                           END YGCT
+                    , CASE WHEN FGC <![CDATA[<=]]> LAG(FGC) OVER(ORDER BY JSTAT_ID) 
+                           THEN 0
+                           ELSE FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID)
+                           END FGC
+                    , CASE WHEN FGC <![CDATA[<=]]> LAG(FGC) OVER(ORDER BY JSTAT_ID) OR FGCT <![CDATA[<=]]> LAG(FGCT) OVER(ORDER BY JSTAT_ID)
+                           THEN 0
+                           ELSE (FGCT - LAG(FGCT) OVER(ORDER BY JSTAT_ID)) / (FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID))
+                           END FGCT
                     , FGC TFGC 
                     , FGCT TFGCT 
                     , YGC TYGC 
@@ -42,7 +54,7 @@
                  FROM TB_JSTAT 
                  <choose>
 	           <when test="fromTime == null or  fromTime  == '' or toTime == null or toTime == ''">
-	            WHERE JSTAT_TIME BETWEEN SYSTIMESTAMP - 1 AND SYSTIMESTAMP
+	            WHERE JSTAT_TIME BETWEEN SYSTIMESTAMP - INTERVAL '1' hour AND SYSTIMESTAMP
 	           </when>
 	           <otherwise>
 	            WHERE JSTAT_TIME BETWEEN TO_DATE(#{fromTime}, 'YYYYMMDDHH24') AND TO_DATE(#{toTime}, 'YYYYMMDDHH24')
@@ -80,10 +92,22 @@
                     , O 
                     , P 
                     , JSTAT_TIME 
-                    , YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID) YGC
-                    , DECODE(YGC, LAG(YGC) OVER(ORDER BY JSTAT_ID), 0,  (YGCT - LAG(YGCT) OVER(ORDER BY JSTAT_ID)) / (YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID))) YGCT
-                    , FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID) FGC
-                    , DECODE(FGC, LAG(FGC) OVER(ORDER BY JSTAT_ID), 0,  (FGCT - LAG(FGCT) OVER(ORDER BY JSTAT_ID)) / (FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID))) FGCT
+                    , CASE WHEN YGC <![CDATA[<=]]> LAG(YGC) OVER(ORDER BY JSTAT_ID) 
+                           THEN 0
+                           ELSE YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID)
+                           END YGC
+                    , CASE WHEN YGC <![CDATA[<=]]> LAG(YGC) OVER(ORDER BY JSTAT_ID) OR YGCT <![CDATA[<=]]> LAG(YGCT) OVER(ORDER BY JSTAT_ID)
+                           THEN 0
+                           ELSE (YGCT - LAG(YGCT) OVER(ORDER BY JSTAT_ID)) / (YGC - LAG(YGC) OVER(ORDER BY JSTAT_ID))
+                           END YGCT
+                    , CASE WHEN FGC <![CDATA[<=]]> LAG(FGC) OVER(ORDER BY JSTAT_ID) 
+                           THEN 0
+                           ELSE FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID)
+                           END FGC
+                    , CASE WHEN FGC <![CDATA[<=]]> LAG(FGC) OVER(ORDER BY JSTAT_ID) OR FGCT <![CDATA[<=]]> LAG(FGCT) OVER(ORDER BY JSTAT_ID)
+                           THEN 0
+                           ELSE (FGCT - LAG(FGCT) OVER(ORDER BY JSTAT_ID)) / (FGC - LAG(FGC) OVER(ORDER BY JSTAT_ID))
+                           END FGCT
                     , FGC TFGC 
                     , FGCT TFGCT 
                     , YGC TYGC 
@@ -103,6 +127,7 @@
         SELECT SERVER
              , SELECT_YN
           FROM TB_SERVER
+         ORDER BY SERVER
     </select>
     
     <update id="updateServer" parameterType="org.beatific.daram.web.vo.dao.JstatVo" >

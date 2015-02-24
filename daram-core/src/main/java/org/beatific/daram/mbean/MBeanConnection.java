@@ -17,9 +17,13 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.beatific.daram.jstat.Jstat;
 
 public class MBeanConnection {
+	
+	private final Log logger = LogFactory.getLog(getClass());
 	
 	private String url;
 	private String username;
@@ -107,6 +111,8 @@ public class MBeanConnection {
 		holder = new VmidHolder();
 		try {
 			Object id = this.getAttribute(new ObjectName("java.lang:type=Runtime"), "Name");
+			
+			logger.debug("Runtime name[" + id + "]");
 			
 			if(id instanceof String)this.holder.hold(((String) id).substring(0, ((String) id).indexOf("@")));
 		} catch (Exception e) {
