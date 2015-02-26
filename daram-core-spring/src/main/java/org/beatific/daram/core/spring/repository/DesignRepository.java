@@ -7,25 +7,16 @@ import org.beatific.daram.core.spring.dao.vo.MonitorGraphVo;
 import org.beatific.daram.core.spring.dao.vo.MonitorVo;
 import org.beatific.daram.design.Design;
 import org.beatific.daram.design.Graph;
-import org.beatific.ddirori.context.ApplicationContextUtils;
+import org.beatific.ddirori.context.annotation.DDirori;
 import org.beatific.ddirori.repository.OneStateRepository;
 import org.beatific.ddirori.repository.Store;
 import org.springframework.util.Assert;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @Store
 public class DesignRepository extends OneStateRepository<Design> {
 
-	private DesignDao dao = null;
-	
-	private DesignDao getDao() {
-		if(dao == null) {
-			WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(ApplicationContextUtils.getServletContext());
-			dao = (DesignDao)wac.getBean("designDao");
-		}
-		return dao;
-	}
+	@DDirori(name="designDao")
+	private DesignDao dao;
 	
 	private Design getDesign(Object object) {
 		
@@ -41,13 +32,14 @@ public class DesignRepository extends OneStateRepository<Design> {
 	@Override
 	public void save(Object object) {
 		
+		if(dao == null)return;
 		Design design = getDesign(object);
 		DesignVo designVo = new DesignVo();
 		designVo.setDesignName(design.getName());
 		designVo.setxTag(design.getxTag());
 		designVo.setyTag(design.getyTag());
-		if(getDao().selectDesign(designVo) != null) return;
-		getDao().insertDesign(designVo);
+		if(dao.selectDesign(designVo) != null) return;
+		dao.insertDesign(designVo);
 	}
 
 	@Override
@@ -62,10 +54,10 @@ public class DesignRepository extends OneStateRepository<Design> {
 		
 		Long monitorId = design.getMonitorId();
 		if(monitorId == null) {
-			monitorId = getDao().selectMonitorPk();
+			monitorId = dao.selectMonitorPk();
 			MonitorVo monitorVo = new MonitorVo();
 			monitorVo.setMonitorId(monitorId);
-			getDao().insertMonitor(monitorVo);
+			dao.insertMonitor(monitorVo);
 		}
 		
 		design.setMonitorId(monitorId);
@@ -74,7 +66,7 @@ public class DesignRepository extends OneStateRepository<Design> {
 		monitorDesignVo.setMonitorId(monitorId);
 		monitorDesignVo.setDesignName(design.getName());
 		monitorDesignVo.setCaption(design.getCaption());
-		getDao().insertMonitorDesign(monitorDesignVo);
+		dao.insertMonitorDesign(monitorDesignVo);
 		
 		MonitorGraphVo monitorGraphVo = new MonitorGraphVo();
 		monitorGraphVo.setMonitorId(monitorId);
@@ -82,7 +74,7 @@ public class DesignRepository extends OneStateRepository<Design> {
 		for(Graph graph : design.getGraphs()) {
 			monitorGraphVo.setGraphName(graph.getName());
 			monitorGraphVo.setyValue(graph.getY());
-			getDao().insertMonitorGraph(monitorGraphVo);
+			dao.insertMonitorGraph(monitorGraphVo);
 		}
 		
 	}

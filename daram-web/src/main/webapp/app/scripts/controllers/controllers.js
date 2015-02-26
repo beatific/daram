@@ -1,4 +1,8 @@
-angular.module('daramApp').controller('DaramController', ['$scope', '$http', 'DaramService',function($scope, $http, DaramService) {
+
+angular.module('daramApp').controller('DaramController', ['$scope', '$http', '$location', 'DaramService',function($scope, $http, $location, DaramService) {
+	
+	var _contextPath = $location.absUrl().substr(0, $location.absUrl().lastIndexOf("/"));
+	
 	$scope.time = {};
 	$scope.designs = [];
 	$scope.selected = [];
@@ -7,7 +11,7 @@ angular.module('daramApp').controller('DaramController', ['$scope', '$http', 'Da
 	$scope.getGraphs = function() {
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8081/daram-web/monitor/graph',
+			url : _contextPath + '/monitor/graph',
 			headers : {
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},
@@ -62,7 +66,7 @@ angular.module('daramApp').controller('DaramController', ['$scope', '$http', 'Da
 		
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8081/daram-web/monitor/design',
+			url : _contextPath + '/monitor/design',
 			headers : {
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},
@@ -101,7 +105,10 @@ angular.module('daramApp').controller('DaramController', ['$scope', '$http', 'Da
 	
 }]);
 
-angular.module('daramApp').controller('JstatController', ['$scope', '$http', 'JstatService',function($scope, $http, JstatService) {
+angular.module('daramApp').controller('JstatController', ['$scope', '$http', '$location', 'JstatService',function($scope, $http, $location, JstatService) {
+	
+	var _contextPath = $location.absUrl().substr(0, $location.absUrl().lastIndexOf("/"));
+	
 	$scope.time = {};
 	$scope.designs = [];
 	$scope.data ={};
@@ -110,7 +117,7 @@ angular.module('daramApp').controller('JstatController', ['$scope', '$http', 'Js
 	$scope.getGraphs = function() {
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8081/daram-web/jstat/graph',
+			url : _contextPath + '/jstat/graph',
 			headers : {
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},
@@ -182,7 +189,7 @@ angular.module('daramApp').controller('JstatController', ['$scope', '$http', 'Js
 	$scope.init = function() {
 		$http({
 			method : 'POST',
-			url : 'http://localhost:8081/daram-web/jstat/server',
+			url : _contextPath + '/jstat/server',
 			headers : {
 				'Content-Type' : 'application/json; charset=UTF-8'
 			},

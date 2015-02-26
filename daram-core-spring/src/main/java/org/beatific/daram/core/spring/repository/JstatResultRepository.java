@@ -3,27 +3,16 @@ package org.beatific.daram.core.spring.repository;
 import org.beatific.daram.core.spring.dao.JstatDao;
 import org.beatific.daram.core.spring.dao.vo.JstatVo;
 import org.beatific.daram.jstat.JstatResult;
-import org.beatific.ddirori.context.ApplicationContextUtils;
+import org.beatific.ddirori.context.annotation.DDirori;
 import org.beatific.ddirori.repository.OneStateRepository;
 import org.beatific.ddirori.repository.Store;
 import org.springframework.util.Assert;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
 
 @Store
 public class JstatResultRepository extends OneStateRepository<JstatResult> {
 
-	private JstatDao dao = null;
-
-	private JstatDao getDao() {
-		if (dao == null) {
-			WebApplicationContext wac = WebApplicationContextUtils
-					.getRequiredWebApplicationContext(ApplicationContextUtils
-							.getServletContext());
-			dao = (JstatDao) wac.getBean("jstatDao");
-		}
-		return dao;
-	}
+	@DDirori(name="jstatDao")
+	private JstatDao dao;
 
 	private JstatResult getJstatResult(Object object) {
 
@@ -43,6 +32,8 @@ public class JstatResultRepository extends OneStateRepository<JstatResult> {
 	@Override
 	public void save(Object object) {
 
+		if(dao == null)return;
+		
 		JstatResult jstat = getJstatResult(object);
 		
 		JstatVo vo = new JstatVo();
@@ -58,9 +49,9 @@ public class JstatResultRepository extends OneStateRepository<JstatResult> {
 		vo.setYgc(Double.parseDouble(jstat.getYgc()));
 		vo.setYgct(Double.parseDouble(jstat.getYgct()));
 		
-		if(getDao().selectServer(vo) == null)getDao().insertServer(vo);
+		if(dao.selectServer(vo) == null)dao.insertServer(vo);
 		
-		getDao().insertJstat(vo);
+		dao.insertJstat(vo);
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package org.beatific.daram.mbean;
 
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +40,17 @@ public class MBeanContainer extends BeanContainer {
 	@Override
 	public Object getBean(String beanName) {
 		return registry.get(beanName);
+	}
+
+	@Override
+	protected Object findBean(Class<?> clazz) {
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> getBeanWithAnnotation(
+			Class<? extends Annotation> annotationClass) {
+		return null;
 	}
 
 }

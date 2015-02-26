@@ -11,6 +11,7 @@ public class Jstat {
 
 	public void execute(String server, String vmid) {
 		
+		if(vmid == null)return;
 		ExecuteShellCommand executor = new ExecuteShellCommand();
 		StringBuffer command = new StringBuffer();
 		command.append("jstat -gcutil ").append(vmid);
