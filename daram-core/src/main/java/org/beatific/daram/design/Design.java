@@ -60,6 +60,7 @@ public class Design {
 	}
 	
 	private void loadCaption() {
+		if(captionExpression == null) return;
 		this.caption = (String)MBeanManager.extract(this.captionExpression);
 	}
 	

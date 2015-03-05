@@ -38,19 +38,15 @@
 	</connection>
 	
 	<design id="memory" name="Memory" x-tag="time" y-tag="memory">
-		<caption format="init : $S{memory.get(init)}, max : $S{memory.get(max)}, used : $S{memory.get(used)}, committed : $S{memory.get(committed)}" />
 		<graph y-value="$S{memory.get(used)}" name="used" />
 	</design>
 	<design id="threads" name="Threads" x-tag="time" y-tag="thread">
-		<caption format="Live : $S{threadCount} Peak : $S{peakCount} Total : $S{totalCount}" />
 		<graph y-value="$S{threadCount}" name="live" />
 	</design>
 	<design id="class" name="Class" x-tag="time" y-tag="class">
-		<caption format="classCount : $S{classCount}" />
 		<graph y-value="$S{classCount}" name="class" />
 	</design>
 	<design id="cpu" name="CPU" x-tag="time" y-tag="cpu">
-		<caption format="use rate : $S{cpu}%" />
 		<graph y-value="$S{cpu}" name="cpu" />
 	</design>
 </daram:daram>

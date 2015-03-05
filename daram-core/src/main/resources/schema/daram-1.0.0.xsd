@@ -16,6 +16,7 @@
     <xs:sequence>
       <xs:element name="object" type="daram:mbean" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
+    <xs:attribute name="id" type="xs:string" use="required" />
     <xs:attribute name="name" type="xs:string" use="required" />
     <xs:attribute name="url" type="xs:string" use="required" />
     <xs:attribute name="username" type="xs:string" />
@@ -31,8 +32,8 @@
   </xs:complexType>
   
   <xs:complexType name="attribute">
-    <xs:attribute name="name" type="xs:string" />
     <xs:attribute name="var" type="xs:string" />
+    <xs:attribute name="name" type="xs:string" />
   </xs:complexType>
   
   <xs:complexType name="design">
@@ -40,7 +41,10 @@
       <xs:element name="caption" type="daram:caption" minOccurs="1" maxOccurs="1"/>
       <xs:element name="graph" type="daram:graph" minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
-    <xs:attribute name="name" type="xs:string" />
+    <xs:attribute name="id" type="xs:string" use="required"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+    <xs:attribute name="x-tag" type="xs:string" use="required"/>
+    <xs:attribute name="y-tag" type="xs:string" use="required"/>
   </xs:complexType>
   
   <xs:complexType name="caption">
