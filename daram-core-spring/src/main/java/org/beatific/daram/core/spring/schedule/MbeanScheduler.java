@@ -21,5 +21,11 @@ public class MbeanScheduler {
 		
 		MBeanManager.extractJstat();
 	}
+	
+//	@Scheduled(cron = "")
+//	public void deleteData() {
+//		
+//		MBeanManager.extractJstat();
+//	}
 
 }

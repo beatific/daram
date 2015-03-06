@@ -9,7 +9,7 @@ public class Jstat {
 	
 	private final RepositoryStore store = ApplicationContextUtils.getApplicationContext().getStore();
 
-	public void execute(String server, String vmid) {
+	public void execute(String server, String vmid) throws ArrayIndexOutOfBoundsException {
 		
 		if(vmid == null)return;
 		ExecuteShellCommand executor = new ExecuteShellCommand();
@@ -23,6 +23,8 @@ public class Jstat {
 			
 			result.setServer(server);
 			store.save(result);
+		} catch(ArrayIndexOutOfBoundsException ex) {
+			throw ex;
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}

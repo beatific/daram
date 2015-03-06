@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.management.AttributeNotFoundException;
 import javax.management.InstanceNotFoundException;
@@ -35,6 +34,7 @@ public class MBeanConnection {
 	private List<MBean> mbeans;
 	private JMXConnector jmxConnector;
 	private VmidHolder holder;
+	private Jstat jstat = new Jstat();
 	
 	public void setUrl(String url) {
 		this.url = url;
@@ -61,12 +61,21 @@ public class MBeanConnection {
 	}
 	
 	public Object getAttribute(ObjectName name, String attribute) throws AttributeNotFoundException, InstanceNotFoundException, MBeanException, ReflectionException, IOException {
+		
+		logger.debug("ObjectName[" + name.toString() + "], attribute[" + attribute +"]" );
+		
+		Object result = null;
+		
 		try {
+			result = getConnection().getAttribute(name, attribute);
 			return getConnection().getAttribute(name, attribute);
 		} catch (IOException e) {
+			e.printStackTrace();
 			disconnect();
 			throw e;
-		} 
+		} finally {
+			logger.debug("result[" + result + "]");
+		}
 	}
 	
 	private MBeanServerConnection getConnection() {
@@ -131,9 +140,13 @@ public class MBeanConnection {
 	}
 	
 	public void collectJstatInfo() {
-		Jstat jstat = new Jstat();
+		
 		if(holder == null)return;
-		jstat.execute(id, holder.vmid());
+		try {
+		    jstat.execute(id, holder.vmid());
+		} catch(ArrayIndexOutOfBoundsException ex) {
+			if(holder.vmid() !=null)initHolder();
+		}
 	}
 
 	public String getId() {
