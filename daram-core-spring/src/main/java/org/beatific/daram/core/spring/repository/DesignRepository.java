@@ -33,7 +33,10 @@ public class DesignRepository extends OneStateRepository<Design> {
 	public void save(Object object) {
 		
 		if(dao == null)return;
+		
 		Design design = getDesign(object);
+		
+		System.out.println("design[" + design + "]");
 		DesignVo designVo = new DesignVo();
 		designVo.setDesignName(design.getName());
 		designVo.setxTag(design.getxTag());

@@ -47,7 +47,7 @@ public class JstatConverter {
 		eden.put("graphs", convertGraphByValueName(dataMaps, "e"));
 		eden.put("xTag", "Time");
 		eden.put("yTag", "eden");
-		eden.put("denomination", "Byte");
+		eden.put("denomination", "%");
 		eden.put("name", "Eden");
 		list.add(eden);
 		
@@ -55,7 +55,7 @@ public class JstatConverter {
 		s0.put("graphs", convertGraphByValueName(dataMaps, "s0"));
 		s0.put("xTag", "Time");
 		s0.put("yTag", "s0");
-		s0.put("denomination", "Byte");
+		s0.put("denomination", "%");
 		s0.put("name", "Survivor0");
 		list.add(s0);
 		
@@ -63,7 +63,7 @@ public class JstatConverter {
 		s1.put("graphs", convertGraphByValueName(dataMaps, "s1"));
 		s1.put("xTag", "Time");
 		s1.put("yTag", "s1");
-		s1.put("denomination", "Byte");
+		s1.put("denomination", "%");
 		s1.put("name", "Survivor1");
 		list.add(s1);
 		
@@ -71,7 +71,7 @@ public class JstatConverter {
 		old.put("graphs", convertGraphByValueName(dataMaps, "o"));
 		old.put("xTag", "Time");
 		old.put("yTag", "old");
-		old.put("denomination", "Byte");
+		old.put("denomination", "%");
 		old.put("name", "Old");
 		list.add(old);
 		
@@ -120,7 +120,7 @@ public class JstatConverter {
 		eden.put("graph", convertGraphByValueName(dataMap, "e"));
 		eden.put("xTag", "Time");
 		eden.put("yTag", "eden");
-		eden.put("denomination", "Byte");
+		eden.put("denomination", "%");
 		eden.put("name", "Eden");
 		list.add(eden);
 		
@@ -128,7 +128,7 @@ public class JstatConverter {
 		s0.put("graph", convertGraphByValueName(dataMap, "s0"));
 		s0.put("xTag", "Time");
 		s0.put("yTag", "s0");
-		s0.put("denomination", "Byte");
+		s0.put("denomination", "%");
 		s0.put("name", "Survivor0");
 		list.add(s0);
 		
@@ -136,7 +136,7 @@ public class JstatConverter {
 		s1.put("graph", convertGraphByValueName(dataMap, "s1"));
 		s1.put("xTag", "Time");
 		s1.put("yTag", "s1");
-		s1.put("denomination", "Byte");
+		s1.put("denomination", "%");
 		s1.put("name", "Survivor1");
 		list.add(s1);
 		
@@ -144,7 +144,7 @@ public class JstatConverter {
 		old.put("graph", convertGraphByValueName(dataMap, "o"));
 		old.put("xTag", "Time");
 		old.put("yTag", "old");
-		old.put("denomination", "Byte");
+		old.put("denomination", "%");
 		old.put("name", "Old");
 		list.add(old);
 		

@@ -125,14 +125,18 @@ public class MBeanConnection {
 			
 			if(id instanceof String)this.holder.hold(((String) id).substring(0, ((String) id).indexOf("@")));
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 	}
 	public Map<String, Object> reload() {
 		
-		if(holder == null) initHolder();
 		Map<String, Object> beans = new HashMap<String, Object>();
+		
 		if(getConnection() == null) return null;
+		
+		if(holder == null) initHolder();
+		
 		for(MBean mbean : mbeans)  {
 			beans.putAll(mbean.loadMBean(this));
 		}
@@ -145,7 +149,7 @@ public class MBeanConnection {
 		try {
 		    jstat.execute(id, holder.vmid());
 		} catch(ArrayIndexOutOfBoundsException ex) {
-			if(holder.vmid() !=null)initHolder();
+			if(holder.vmid() !=null)holder = null;
 		}
 	}
 

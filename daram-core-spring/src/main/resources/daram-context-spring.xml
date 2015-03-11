@@ -17,6 +17,12 @@
 		<mbean objectName="java.lang:type=OperatingSystem">
 			<attribute var="cpu" name="SystemCpuLoad"/>
 		</mbean>
+		<mbean objectName="org.beatific.daram:type=ThreadStuck">
+			<attribute var="hoggin" name="HoggingThreadsCount"/>
+			<attribute var="running" name="RunningThreadCount"/>
+			<attribute var="stuck" name="StuckThreadsCount"/>
+			<attribute var="total" name="ThreadCount"/>
+		</mbean>
 	</connection>
 	
 	<connection id="server2" basePackage="org.beatific"  
@@ -48,5 +54,18 @@
 	</design>
 	<design id="cpu" name="CPU" x-tag="time" y-tag="cpu">
 		<graph y-value="$S{cpu}" name="cpu" />
+	</design>
+	
+	<design id="hogging" name="Hogging" x-tag="time" y-tag="hogging">
+		<graph y-value="$S{hoggin}" name="hogging" />
+	</design>
+	<design id="running" name="Running" x-tag="time" y-tag="running">
+		<graph y-value="$S{running}" name="running" />
+	</design>
+	<design id="stuck" name="Stuck" x-tag="time" y-tag="stuck">
+		<graph y-value="$S{stuck}" name="stuck" />
+	</design>
+	<design id="total" name="Total" x-tag="time" y-tag="total">
+		<graph y-value="$S{total}" name="total" />
 	</design>
 </daram:daram>
