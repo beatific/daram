@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.beatific.daram.mbean.stuck.MonitorThread;
 import org.beatific.daram.mbean.stuck.ThreadState;
+import org.beatific.ddirori.utils.TraceUtils;
 
 public abstract class ThreadStateResolver {
 
@@ -48,6 +49,11 @@ public abstract class ThreadStateResolver {
 					new Date().getTime() - thread.getTime());
 		}
 	}
+	
+	protected void printStackTrace(MonitorThread mthread) {
+		Thread thread = mthread.getThread();
+		TraceUtils.printStackTrace(thread.getStackTrace());
+	}
 
 	private class Condition {
 
@@ -73,7 +79,6 @@ public abstract class ThreadStateResolver {
 		public void clear() {
 			conditions.get().clear();
 		}
-		
 		
 	}
 

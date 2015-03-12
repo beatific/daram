@@ -29,8 +29,6 @@ public class MonitorThread {
 	
 	public ThreadState getState() {
 		
-		logger.debug("Thread state[" + thread.getState() + "]");
-		
 	    switch(thread.getState()) {
 	    case RUNNABLE :
 	    case TIMED_WAITING :
