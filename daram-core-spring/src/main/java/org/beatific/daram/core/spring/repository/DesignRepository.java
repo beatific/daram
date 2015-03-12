@@ -36,7 +36,6 @@ public class DesignRepository extends OneStateRepository<Design> {
 		
 		Design design = getDesign(object);
 		
-		System.out.println("design[" + design + "]");
 		DesignVo designVo = new DesignVo();
 		designVo.setDesignName(design.getName());
 		designVo.setxTag(design.getxTag());

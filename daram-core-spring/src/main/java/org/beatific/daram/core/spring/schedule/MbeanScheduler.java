@@ -12,7 +12,6 @@ public class MbeanScheduler {
 
 	@Scheduled(fixedDelay = 60000)
 	public void run() {
-		
 		MBeanManager.reload();
 	}
 	

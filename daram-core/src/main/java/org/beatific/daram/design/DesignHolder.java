@@ -10,14 +10,17 @@ public class DesignHolder {
 	
 	public static void hold(Design design) {
 		if(holder.containsKey(design.getName()))return;
-		design.save();
 		holder.put(design.getName(), design);
 	}
 	
 	public static void reload() {
 		Long monitorId = null;
 		for(Entry<String, Design> entry : holder.entrySet()) {
-			monitorId = entry.getValue().loadDesign(monitorId);
+			
+			Design design = entry.getValue();
+			if(!design.isSave())design.save();
+			
+			monitorId = design.loadDesign(monitorId);
 		}
 	}
 	
