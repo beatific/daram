@@ -137,41 +137,20 @@ public class StuckMonitor implements Monitor {
 			return null;
 		}
 		
-		public void remove(Thread thread) {
+		private boolean remove(List<MonitorThread> threads, Thread thread) {
 			
-			MonitorThread mthread = getRunning(thread);
+			MonitorThread mthread = get(threads, thread);
 			if(mthread != null) {
-				runnings.remove(mthread);
-				return;
+				threads.remove(mthread);
+				return true;
 			}
-			
-			mthread = getHogging(thread);
-			if(mthread != null) {
-				hoggings.remove(mthread);
-				return;
-			}
-			
-			mthread = getStuck(thread);
-			if(mthread != null) {
-				stucks.remove(mthread);
-				return;
-			}
-			
+			return false;
 		}
 		
-		private MonitorThread getRunning(Thread thread) {
-
-			return get(runnings, thread);
-		}
-
-		private MonitorThread getHogging(Thread thread) {
-
-			return get(hoggings, thread);
-		}
-
-		private MonitorThread getStuck(Thread thread) {
-
-			return get(stucks, thread);
+		public void remove(Thread thread) {
+			
+			if(remove(runnings, thread) || remove(hoggings, thread) || remove(stucks, thread)) return;
+			
 		}
 
 		public synchronized int getRunningCount() {

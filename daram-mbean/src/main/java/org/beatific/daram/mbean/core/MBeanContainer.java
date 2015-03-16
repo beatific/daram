@@ -25,7 +25,7 @@ public class MBeanContainer {
 		return mbeanContainer;
 	}
 	
-	public MBeanContainer() {
+	private MBeanContainer() {
 		init();
 	}
 	
