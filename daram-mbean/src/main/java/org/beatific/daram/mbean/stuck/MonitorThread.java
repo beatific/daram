@@ -2,12 +2,8 @@ package org.beatific.daram.mbean.stuck;
 
 import java.util.Date;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 public class MonitorThread {
 
-	private static Log logger = LogFactory.getLog(MonitorThread.class);
 	private Thread thread;
 	private final long time;
 	
