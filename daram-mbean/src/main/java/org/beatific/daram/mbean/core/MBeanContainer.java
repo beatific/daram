@@ -52,7 +52,7 @@ public class MBeanContainer {
 		return annotation.objectName();
 	}
 	
-	private synchronized void init() {
+	private void init() {
 		for(Object mbean : getMBeans()) {
 			register(mbean);
 		}
@@ -62,7 +62,7 @@ public class MBeanContainer {
 		return container.get(objectName);
 	}
 	
-	private synchronized void register(Object object) {
+	private void register(Object object) {
 		
 		String objectName = getObjectName(object);
 		registerMBeanServer(objectName, object);
