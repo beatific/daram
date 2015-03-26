@@ -24,7 +24,7 @@ public class DesignRepository extends OneStateRepository<Design> {
 		
 		Assert.notNull(object);
 		if(object instanceof Design) design = (Design)object;
-		else throw new RuntimeException("Type Cast Exception : source[" + object.getClass().getName() + "], destination[" + Design.class.getName());
+		else throw new RuntimeException("Type Cast Exception : source[" + object.getClass().getName() + "], destination[" + Design.class.getName() + "]");
 		
 		return design;
 	}

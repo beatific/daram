@@ -24,7 +24,7 @@ public class JstatResultRepository extends OneStateRepository<JstatResult> {
 		else
 			throw new RuntimeException("Type Cast Exception : source["
 					+ object.getClass().getName() + "], destination["
-					+ JstatResult.class.getName());
+					+ JstatResult.class.getName() + "]");
 
 		return jstat;
 	}
