@@ -30,11 +30,12 @@ public class MBeanManager {
 	}
 	
 	public static void reload() {
+		
 		for(MBeanConnection connection : connections) {
 		
 			Map<String, Object> objectMap = connection.reload();
 			if(objectMap == null || objectMap.size() == 0) return;
-			for(Entry<String, Object> entry : objectMap.entrySet())
+			for(Entry<String, Object> entry : objectMap.entrySet())  
 				container.registerBean(entry.getKey(), entry.getValue());
 		}
 		DesignHolder.reload();

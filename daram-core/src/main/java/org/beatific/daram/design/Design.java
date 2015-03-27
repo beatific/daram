@@ -17,7 +17,6 @@ public class Design {
 	private String yTag;
 	private final RepositoryStore store = ApplicationContextUtils.getApplicationContext().getStore();
 	private Long monitorId;
-	private boolean isSave = false;
 	
 	public String getName() {
 		return name;
@@ -44,12 +43,7 @@ public class Design {
 	}
 	
 	public void save() {
-		isSave = true;
 		store.save(this);
-	}
-	
-	public boolean isSave() {
-		return isSave;
 	}
 	
 	public Long loadDesign(Long monitorId) {

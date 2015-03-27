@@ -130,9 +130,13 @@ public class MBeanConnection {
 		
 	}
 	public Map<String, Object> reload() {
+		
 		Map<String, Object> beans = new HashMap<String, Object>();
+		
 		if(getConnection() == null) return null;
+		
 		if(holder == null) initHolder();
+		
 		for(MBean mbean : mbeans)  {
 			beans.putAll(mbean.loadMBean(this));
 		}
